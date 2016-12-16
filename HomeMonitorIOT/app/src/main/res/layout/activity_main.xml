@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_main"
+        android:layout_width="fill_parent"
+        android:layout_height="510dp"
+        tools:context="com.tiasan.homemonitoriot.MainActivity">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="left"
+            android:text="Press 'Get Instant Data' button to get results..."
+            android:id="@+id/tvMainActivity" />
+
+        <View android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginTop="270dp"
+            android:background="@android:color/darker_gray"
+            android:id="@+id/view1" />
+
+        <Button android:id="@+id/bInstData"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="305dp"
+            android:text="Get Instant Data" />
+
+        <View android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginTop="370dp"
+            android:background="@android:color/darker_gray"
+            android:id="@+id/view2" />
+
+        <Button android:id="@+id/bTemperature"
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="400dp"
+            android:layout_alignParentLeft="true"
+            android:text="Temperature" />
+
+        <Button android:id="@+id/bHumidity"
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="400dp"
+            android:layout_alignParentRight="true"
+            android:text="Humidity" />
+
+        <Button android:id="@+id/bLight"
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:text="Light" />
+
+        <Button android:id="@+id/bPressure"
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:text="Pressure" />
+
+    </RelativeLayout>
+</ScrollView>

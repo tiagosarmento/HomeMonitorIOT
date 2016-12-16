@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">HomeMonitorIOT</string>
+    <string name="app_name_temperature">Temperature at Home</string>
+    <string name="app_name_humidity">Humidity at Home</string>
+    <string name="app_name_pressure">Pressure at Home</string>
+    <string name="app_name_light">Visibility at Home</string>
+</resources>
