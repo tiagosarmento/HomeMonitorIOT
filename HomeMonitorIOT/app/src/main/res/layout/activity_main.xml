@@ -23,18 +23,6 @@
 
         <View android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:layout_marginTop="270dp"
-            android:background="@android:color/darker_gray"
-            android:id="@+id/view1" />
-
-        <Button android:id="@+id/bInstData"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="305dp"
-            android:text="Get Instant Data" />
-
-        <View android:layout_width="match_parent"
-            android:layout_height="20dp"
             android:layout_marginTop="370dp"
             android:background="@android:color/darker_gray"
             android:id="@+id/view2" />

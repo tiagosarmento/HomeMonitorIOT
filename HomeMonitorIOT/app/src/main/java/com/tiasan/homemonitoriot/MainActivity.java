@@ -1,7 +1,6 @@
 package com.tiasan.homemonitoriot;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,11 +8,9 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -39,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button bHumidity    = null;
     Button bPressure    = null;
     Button bLight       = null;
-    Button bInstData    = null;
 
     TextView tvMainText = null;
 
@@ -75,12 +71,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        if (id == R.id.mitRefresh) {
+            Log.d(gTag, "Refresh button pressed");
+            GetInstDataAsyncTask atkInstData = new GetInstDataAsyncTask();
+            atkInstData.setParameters(new ProgressDialog(this), tvMainText);
+            atkInstData.execute();
+            return true;
+        }
         if (id == R.id.mitSettings) {
+            Log.d(gTag, "Settings button pressed");
             //Intent iAbout = new Intent(this,MenuAbout.class);
             //startActivity(iAbout);
             return true;
         }
         if (id == R.id.mitAbout) {
+            Log.d(gTag, "About button pressed");
             // 1. Instantiate an AlertDialog.Builder with its constructor
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -116,9 +121,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         
         bLight = (Button) findViewById(R.id.bLight);
         bLight.setOnClickListener(this);
-
-        bInstData = (Button) findViewById(R.id.bInstData);
-        bInstData.setOnClickListener(this);
     }
 
     public void initTextViews() {
@@ -205,13 +207,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d(gTag, "Light button clicked.");
                 intent = new Intent(MainActivity.this, LightActivity.class);
                 startActivity(intent);
-                break;
-            case R.id.bInstData:
-                // Execute AsyncTask to get InstData
-                Log.d(gTag, "InstData button clicked.");
-                GetInstDataAsyncTask atkInstData = new GetInstDataAsyncTask();
-                atkInstData.setParameters(new ProgressDialog(this), tvMainText);
-                atkInstData.execute();
                 break;
         }
     }
