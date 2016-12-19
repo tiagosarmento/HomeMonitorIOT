@@ -1,14 +1,12 @@
 package com.tiasan.homemonitoriot;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.os.SystemClock;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 
 import com.jjoe64.graphview.GraphView;
 
-public class LightActivity extends Activity {
+public class LightActivity extends AppCompatActivity {
         
     // Set Global data
     String gTag = "DBG - LightActivity";

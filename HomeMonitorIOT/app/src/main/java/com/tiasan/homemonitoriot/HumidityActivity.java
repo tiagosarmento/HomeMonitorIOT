@@ -1,12 +1,12 @@
 package com.tiasan.homemonitoriot;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.jjoe64.graphview.GraphView;
 
-public class HumidityActivity extends Activity {
+public class HumidityActivity extends AppCompatActivity {
     
     // Set Global data
     String gTag = "DBG - HumidityActivity";
