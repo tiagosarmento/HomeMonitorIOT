@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="General Settings"
+        android:key="keyGeneral">
+
+        <SwitchPreference
+            android:key="keyAutoUpdate"
+            android:title="Automatic data updates"
+            android:summary="Automatically fetch sensor data from Exosite Platform." />
+
+        <EditTextPreference
+            android:key="keyCIK"
+            android:title="CIK Number"
+            android:summary="Client Interface Key (CIK) used to authenticate your device on Exosite Platform."
+            android:dialogTitle="CIK Number" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Sensors Configuration Settings"
+        android:key="keySensors">
+
+        <EditTextPreference
+            android:key="keyTemperature"
+            android:title="Temperature Sensor"
+            android:summary="Temperature sensor data source port on Exosite Platform."
+            android:dialogTitle="Temperature sensor port" />
+
+        <EditTextPreference
+            android:key="keyHumidity"
+            android:title="Humidity Sensor"
+            android:summary="Humidity sensor data source port on Exosite Platform."
+            android:dialogTitle="Humidity sensor port" />
+
+        <EditTextPreference
+            android:key="keyPressure"
+            android:title="Pressure Sensor"
+            android:summary="Pressure sensor data source port on Exosite Platform."
+            android:dialogTitle="Pressure sensor port" />
+
+        <EditTextPreference
+            android:key="keyLight"
+            android:title="Light Sensor"
+            android:summary="Light sensor data source port on Exosite Platform."
+            android:dialogTitle="Light sensor port" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

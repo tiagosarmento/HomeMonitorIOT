@@ -4,4 +4,5 @@
     <string name="app_name_humidity">Humidity at Home</string>
     <string name="app_name_pressure">Pressure at Home</string>
     <string name="app_name_light">Visibility at Home</string>
+    <string name="app_name_settings">Settings</string>
 </resources>

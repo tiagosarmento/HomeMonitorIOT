@@ -80,8 +80,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (id == R.id.mitSettings) {
             Log.d(gTag, "Settings button pressed");
-            //Intent iAbout = new Intent(this,MenuAbout.class);
-            //startActivity(iAbout);
+            Intent iSettings = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(iSettings);
             return true;
         }
         if (id == R.id.mitAbout) {
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
             // 2. Chain together various setter methods to set the dialog characteristics
-            builder.setMessage("  Application developed by Tiago Santos.\n  Contact: tiagosarmentosantos@gmail.com\n  Code at: github@github\n");
+            builder.setMessage("  Application developed by Tiago Santos.\n  Contact: tiagosarmentosantos@gmail.com\n  Code at: https://github.com/tiagosarmento/HomeMonitorIOT\n");
             builder.setTitle("About");
 
             // 3. Create dismiss button
