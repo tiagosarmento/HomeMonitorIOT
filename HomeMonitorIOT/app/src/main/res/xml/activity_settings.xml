@@ -8,44 +8,72 @@
         android:key="keyGeneral">
 
         <SwitchPreference
-            android:key="keyAutoUpdate"
-            android:title="Automatic data updates"
-            android:summary="Automatically fetch sensor data from Exosite Platform." />
+            android:key="@string/keyAutoUpdate"
+            android:title="Automatically update sensor data"
+            android:summary="Enable to automatically fetch sensor data from Exosite Platform."
+            android:defaultValue="false"
+            android:id="@+id/spAutoUpdate" />
 
         <EditTextPreference
-            android:key="keyCIK"
+            android:key="@string/keyCIK"
             android:title="CIK Number"
             android:summary="Client Interface Key (CIK) used to authenticate your device on Exosite Platform."
-            android:dialogTitle="CIK Number" />
+            android:dialogTitle="CIK Number"
+            android:defaultValue="ed253edce4b1e6a0bcfd74e18d0397c592530000"
+            android:id="@+id/etpCIK" />
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="Sensors Configuration Settings"
+        android:title="Sensors Settings"
         android:key="keySensors">
 
         <EditTextPreference
-            android:key="keyTemperature"
+            android:key="@string/keyTemperaturePort"
             android:title="Temperature Sensor"
-            android:summary="Temperature sensor data source port on Exosite Platform."
-            android:dialogTitle="Temperature sensor port" />
+            android:summary="Temperature sensor data source port on Exosite."
+            android:dialogTitle="Temperature sensor port"
+            android:defaultValue="bmp180_tempc"
+            android:id="@+id/etpTemperaturePort" />
 
         <EditTextPreference
-            android:key="keyHumidity"
+            android:key="@string/keyHumidityPort"
             android:title="Humidity Sensor"
-            android:summary="Humidity sensor data source port on Exosite Platform."
-            android:dialogTitle="Humidity sensor port" />
+            android:summary="Humidity sensor data source port on Exosite."
+            android:dialogTitle="Humidity sensor port"
+            android:defaultValue="sht21_humid"
+            android:id="@+id/etpHumidityPort" />
 
         <EditTextPreference
-            android:key="keyPressure"
+            android:key="@string/keyPressurePort"
             android:title="Pressure Sensor"
-            android:summary="Pressure sensor data source port on Exosite Platform."
-            android:dialogTitle="Pressure sensor port" />
+            android:summary="Pressure sensor data source port on Exosite."
+            android:dialogTitle="Pressure sensor port"
+            android:defaultValue="bmp180_press"
+            android:id="@+id/etpPressurePort" />
 
         <EditTextPreference
-            android:key="keyLight"
-            android:title="Light Sensor"
-            android:summary="Light sensor data source port on Exosite Platform."
-            android:dialogTitle="Light sensor port" />
+            android:key="@string/keyAltitudePort"
+            android:title="Altitude Sensor"
+            android:summary="Altitude sensor data source port on Exosite."
+            android:dialogTitle="Altitude sensor port"
+            android:defaultValue="bmp180_alt"
+            android:id="@+id/etpAltitudePort" />
+
+        <EditTextPreference
+            android:key="@string/keyVisibleLightPort"
+            android:title="Visible Light Sensor"
+            android:summary="Visible Light sensor data source port on Exosite."
+            android:dialogTitle="Visible Light sensor port"
+            android:defaultValue="isl29023_visible"
+            android:id="@+id/etpVisibleLightPort" />
+
+        <EditTextPreference
+            android:key="@string/keyInfraredLightPort"
+            android:title="Infrared Light Sensor"
+            android:summary="Infrared Light sensor data source port on Exosite."
+            android:dialogTitle="Infrared Light sensor port"
+            android:defaultValue="isl29023_infrared"
+            android:id="@+id/etpInfraredLightPort" />
 
     </PreferenceCategory>
 

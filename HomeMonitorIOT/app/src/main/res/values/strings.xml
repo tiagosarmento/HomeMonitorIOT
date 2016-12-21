@@ -5,4 +5,13 @@
     <string name="app_name_pressure">Pressure at Home</string>
     <string name="app_name_light">Visibility at Home</string>
     <string name="app_name_settings">Settings</string>
+    <string name="shared_preferences_file">shared_preferences_file</string>
+    <string name="keyAutoUpdate">settingsKeyAutoUpdate</string>
+    <string name="keyCIK">settingsKeyCIK</string>
+    <string name="keyTemperaturePort">settingsKeyTemperaturePort</string>
+    <string name="keyHumidityPort">settingsKeyHumidityPort</string>
+    <string name="keyPressurePort">settingsKeyPressurePort</string>
+    <string name="keyAltitudePort">settingsKeyAltitudePort</string>
+    <string name="keyVisibleLightPort">settingsKeyVisibleLightPort</string>
+    <string name="keyInfraredLightPort">settingsKeyInfraredLightPort</string>
 </resources>

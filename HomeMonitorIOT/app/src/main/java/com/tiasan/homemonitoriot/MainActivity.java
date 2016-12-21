@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     TextView tvMainText = null;
 
+    SettingsHandler shSettings = null;
+
     /**
      * Called when the activity is first created.
      */
@@ -56,6 +58,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initButtons();
         initTextViews();
 
+        // Create hook on Settings (Shared Preferences)
+        shSettings = new SettingsHandler(this);
+        shSettings.printSettings();
     }
 
     @Override
@@ -74,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.mitRefresh) {
             Log.d(gTag, "Refresh button pressed");
             GetInstDataAsyncTask atkInstData = new GetInstDataAsyncTask();
-            atkInstData.setParameters(new ProgressDialog(this), tvMainText);
+            atkInstData.setParameters(new ProgressDialog(this), tvMainText, shSettings);
             atkInstData.execute();
             return true;
         }
@@ -90,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
             // 2. Chain together various setter methods to set the dialog characteristics
-            builder.setMessage("  Application developed by Tiago Santos.\n  Contact: tiagosarmentosantos@gmail.com\n  Code at: https://github.com/tiagosarmento/HomeMonitorIOT\n");
+            builder.setMessage("  Application developed by Tiago Santos.\n  Contact: tiagosarmentosantos@gmail.com\n  Code at: github@github\n");
             builder.setTitle("About");
 
             // 3. Create dismiss button
@@ -125,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void initTextViews() {
         tvMainText = (TextView) findViewById(R.id.tvMainActivity);
-        tvMainText.setText("Press 'Get Instant Data' button to get results...");
     }
 
     /**
@@ -144,9 +148,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         Log.d(gTag, "The onResume() event");
-        GetInstDataAsyncTask atkInstData = new GetInstDataAsyncTask();
-        atkInstData.setParameters(new ProgressDialog(this), tvMainText);
-        atkInstData.execute();
+        if (shSettings.getSettingBooleanValue(getString(R.string.keyAutoUpdate)) == true) {
+            GetInstDataAsyncTask atkInstData = new GetInstDataAsyncTask();
+            atkInstData.setParameters(new ProgressDialog(this), tvMainText, shSettings);
+            atkInstData.execute();
+        } else {
+            tvMainText.setText("Sensor data not yet fetched.\nPress 'Refresh' button on ActionBar to fetch data.\n");
+        }
     }
 
     /**
@@ -210,12 +218,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
     public class GetInstDataAsyncTask extends AsyncTask<String, Integer, Double> {
 
         // Set Global data
-        private String         gTag             = "DBG - GetInstData";
-        private ProgressDialog pdFetchInstData  = null;
-        private TextView       gTextView        = null;
+        private String          gTag             = "DBG - GetInstData";
+        private ProgressDialog  pdFetchInstData  = null;
+        private TextView        gTextView        = null;
+        private SettingsHandler gshSettings      = null;
 
         // Set Global Exosite data
         private String gsISL29023_I = null;
@@ -231,20 +241,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d(gTag, "doInBackground" );
             // Get Light Data
             Log.d(gTag, "Fetching Light data" );
-            gsISL29023_I = getExoInstData("isl29023_infrared");
-            gsISL29023_V = getExoInstData("isl29023_visible");
+            gsISL29023_I = getExoInstData(gshSettings.getSettingStringValue(getString(R.string.keyInfraredLightPort))); //"isl29023_infrared"
+            gsISL29023_V = getExoInstData(gshSettings.getSettingStringValue(getString(R.string.keyVisibleLightPort))); // "isl29023_visible"
             // Get Temperature
             Log.d(gTag, "Fetching Temperature data" );
-            gsBMP180_T = getExoInstData("bmp180_tempc");
+            gsBMP180_T = getExoInstData(gshSettings.getSettingStringValue(getString(R.string.keyTemperaturePort))); // bmp180_tempc
             // Get Pressure
             Log.d(gTag, "Fetching Pressure data" );
-            gsBMP180_P = getExoInstData("bmp180_press");
+            gsBMP180_P = getExoInstData(gshSettings.getSettingStringValue(getString(R.string.keyPressurePort))); // bmp180_press
             // Get Altitude
             Log.d(gTag, "Fetching Altitude data" );
-            gsBMP180_A = getExoInstData("bmp180_alt");
+            gsBMP180_A = getExoInstData(gshSettings.getSettingStringValue(getString(R.string.keyAltitudePort))); // bmp180_alt
             // Get Humidity
             Log.d(gTag, "Fetching Humidity data" );
-            gsBMP180_H = getExoInstData("sht21_humid");
+            gsBMP180_H = getExoInstData(gshSettings.getSettingStringValue(getString(R.string.keyHumidityPort))); // sht21_humid
 
             return null;
         }
@@ -266,7 +276,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             gTextView.append("Latest Update done at: " + sCurrDateTime);
             gTextView.append("\n");
             gTextView.append("\n");
-            gTextView.append("Press 'Get Instant Data' to refresh results...");
+            if (gshSettings.getSettingBooleanValue(getString(R.string.keyAutoUpdate)) == true) {
+                gTextView.append("Auto-updates enabled, new data will be soon available.");
+            } else {
+                gTextView.append("Auto-updates disabled, press 'Refresh' button on ActionBar to fetch newer data.");
+            }
+
             pdFetchInstData.dismiss();
         }
 
@@ -284,9 +299,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // GetDataAsyncTask set parameters
         // ProgressDialog pdMsg  : Message to be show during data fetch
         // String sDataPort      : Exosite data port name to be fetched
-        public void setParameters(ProgressDialog progressDialog, TextView textView) {
+        public void setParameters(ProgressDialog progressDialog, TextView textView, SettingsHandler settingsHandler) {
             this.gTextView       = textView;
             this.pdFetchInstData = progressDialog;
+            this.gshSettings     = settingsHandler;
         }
 
         private String getExoInstData(String dataPort) {
