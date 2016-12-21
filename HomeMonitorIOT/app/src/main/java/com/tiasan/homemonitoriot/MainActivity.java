@@ -2,16 +2,19 @@ package com.tiasan.homemonitoriot;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -77,40 +80,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.mitRefresh) {
-            Log.d(gTag, "Refresh button pressed");
+            Log.d(gTag, "Refresh button clicked");
             GetInstDataAsyncTask atkInstData = new GetInstDataAsyncTask();
             atkInstData.setParameters(new ProgressDialog(this), tvMainText, shSettings);
             atkInstData.execute();
             return true;
         }
         if (id == R.id.mitSettings) {
-            Log.d(gTag, "Settings button pressed");
+            Log.d(gTag, "Settings button clicked");
             Intent iSettings = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(iSettings);
             return true;
         }
         if (id == R.id.mitAbout) {
-            Log.d(gTag, "About button pressed");
-            // 1. Instantiate an AlertDialog.Builder with its constructor
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-            // 2. Chain together various setter methods to set the dialog characteristics
-            builder.setMessage("  Application developed by Tiago Santos.\n  Contact: tiagosarmentosantos@gmail.com\n  Code at: github@github\n");
-            builder.setTitle("About");
-
-            // 3. Create dismiss button
-            builder.setPositiveButton("Dismiss", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // User clicked OK button
-                }
-            });
-
-            // 3. Get the AlertDialog from create()
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            Log.d(gTag, "About button clicked");
+            showAboutDialog();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     *
+     */
+    public void showAboutDialog() {
+        AlertDialog.Builder adBuilder = new AlertDialog.Builder(this);
+
+        // Create our AlerDialog contents as a Linear Layout to have a fancy format
+        LinearLayout llinear = new LinearLayout(this);
+        llinear.setOrientation(LinearLayout.VERTICAL);
+        llinear.setPadding(10,10,10,10);
+
+        // Sub-layouts, to hold several different messages
+        // Author Credits
+        final TextView tvMsgAuthor = new TextView(this);
+        tvMsgAuthor.setText("Author: Tiago Sarmento Santos.");
+        llinear.addView(tvMsgAuthor);
+        // Contact
+        final TextView tvMsgContact = new TextView(this);
+        final SpannableString ssGitHub = new SpannableString("tiagosarmentosantos@gmail.com");
+        Linkify.addLinks(ssGitHub, Linkify.EMAIL_ADDRESSES);
+        tvMsgContact.setText(ssGitHub);
+        tvMsgContact.setMovementMethod(LinkMovementMethod.getInstance());
+        llinear.addView(tvMsgContact);
+        // Code page
+        final TextView tvMsgGitRepo = new TextView(this);
+        final SpannableString ssGmail = new SpannableString("https://github.com/tiagosarmento/HomeMonitorIOT");
+        Linkify.addLinks(ssGmail, Linkify.WEB_URLS);
+        tvMsgGitRepo.setText(ssGmail);
+        tvMsgGitRepo.setMovementMethod(LinkMovementMethod.getInstance());
+        llinear.addView(tvMsgGitRepo);
+        // Add contents to AlertDialog builder
+        adBuilder.setView(llinear);
+        adBuilder.setTitle("About");
+        adBuilder.setPositiveButton("Dismiss", null);
+        // Show AlertDialog
+        AlertDialog dialog = adBuilder.create();
+        dialog.show();
     }
 
     public void initButtons() {
