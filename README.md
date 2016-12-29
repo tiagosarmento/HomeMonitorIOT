@@ -7,6 +7,7 @@ HomeMonitorIOT is then based in three components:
 - Embedded Hardware from Texas Instruments (Tiva C Series EK-TM4C1294XL)
 - Cloud Data Service (https://ti.exosite.com/views/3304282916/3059609439)
 - Android Application (this github page)
+
 Despite the usage of a Tiva C Series EK-TM4C1294XL, this is a completly decoupled system. It means that you can use any hardware you want, in the way you want to get the sensor data. The only constraint here is that your data must be published on Exosite platform, but not necessarly on the Texas Instruments flavor, as the Android application will fetch data from there (as explained later).
 
 ## 1.1 Embedded Hardware
@@ -22,14 +23,23 @@ The Android Application developed here can be seen as a viewer/client in all thi
 
 # HomeMonitorIOT Android Application
 1. System Overview
+
 Global picture of this system...
+
 2. Features/ Data Ports supported
+
 Exosite available data ports...
+
 3. Android Activities
+
 Actions that can be done with the application
+
 4. Appplication Configuration
+
 How to setup application: defaults fetch my own exosite, how user can set their values...
+
 5. Screenshots
+
 Some pictures of the activities...
 
 # Change log
