@@ -1,26 +1,26 @@
 # Table of Contents  
-[Software License Agreement](#Software License Agreement)
+[Software License Agreement](#software-license-agreement)
 <a name="Software License Agreement"/>
 
-[Home Monitor IOT Project](#HomeMonitorIOT Project)
+[Home Monitor IOT Project](#homemonitoriot-project)
 <a name="HomeMonitorIOT Project"/>
 
-[1.1 Embedded Hardware](##1.1 Embedded Hardware)
+[1.1 Embedded Hardware](##11-embedded-hardware)
 <a name="1.1 Embedded Hardware"/>
 
-[1.2 Cloud Data Service](##1.2 Cloud Data Service)
+[1.2 Cloud Data Service](##12-cloud-data-service)
 <a name="1.2 Cloud Data Service"/>
 
-[1.3 Android Application](##1.3 Android Application)
+[1.3 Android Application](##13-android-application)
 <a name="1.3 Android Application"/>
 
-[HomeMonitorIOT Android Application](#HomeMonitorIOT Android Application)
+[HomeMonitorIOT Android Application](#homemonitoriot-android-application)
 <a name="HomeMonitorIOT Android Application"/>
 
-[Changelog](#Changelog)
+[Changelog](#changelog)
 <a name="Changelog"/>
 
-[ToDo list](#ToDo list)
+[ToDo list](#todo-list)
 <a name="ToDo list"/>
 
 # Software License Agreement
