@@ -5,13 +5,13 @@
 [Home Monitor IOT Project](#homemonitoriot-project)
 <a name="HomeMonitorIOT Project"/>
 
-[1.1 Embedded Hardware](##11-embedded-hardware)
+[1.1 Embedded Hardware](#11-embedded-hardware)
 <a name="1.1 Embedded Hardware"/>
 
-[1.2 Cloud Data Service](##12-cloud-data-service)
+[1.2 Cloud Data Service](#12-cloud-data-service)
 <a name="1.2 Cloud Data Service"/>
 
-[1.3 Android Application](##13-android-application)
+[1.3 Android Application](#13-android-application)
 <a name="1.3 Android Application"/>
 
 [HomeMonitorIOT Android Application](#homemonitoriot-android-application)
