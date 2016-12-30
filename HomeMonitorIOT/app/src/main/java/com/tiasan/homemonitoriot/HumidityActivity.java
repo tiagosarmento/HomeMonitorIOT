@@ -22,9 +22,10 @@ import com.jjoe64.graphview.GraphView;
 public class HumidityActivity extends AppCompatActivity {
     
     // Set Global data
-    String gTag = "DBG - HumidityActivity";
-    ProgressDialog pdHumidity = null;
-    GraphView      gvHumidity = null;
+    private String          gTag       = "DBG - HumidityActivity";
+    private ProgressDialog  pdHumidity = null;
+    private GraphView       gvHumidity = null;
+    private SettingsHandler shSettings = null;
 
     /**
      * Called when the activity is about to become visible.
@@ -39,6 +40,9 @@ public class HumidityActivity extends AppCompatActivity {
         pdHumidity =  new ProgressDialog(this);
 
         gvHumidity = (GraphView) findViewById(R.id.gvHumidity);
+
+        // Create hook on Settings (Shared Preferences)
+        shSettings = new SettingsHandler(this);
     }
 
     /**
@@ -48,8 +52,11 @@ public class HumidityActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.d(gTag, "The onResume() event");
+        String sSensorNameID = "Humidity";
+        String sCIK = shSettings.getSettingStringValue(getString(R.string.keyCIK));
+        String sDataPort = shSettings.getSettingStringValue(getString(R.string.keyHumidityPort));
         GetDataAsyncTask atkHumidity = new GetDataAsyncTask();
-        atkHumidity.setParameters(pdHumidity, "sht21_humid", gvHumidity);
+        atkHumidity.setParameters(pdHumidity, gvHumidity, sCIK, sDataPort, sSensorNameID);
         atkHumidity.execute();
     }
 

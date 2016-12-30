@@ -22,9 +22,10 @@ import com.jjoe64.graphview.GraphView;
 public class LightActivity extends AppCompatActivity {
         
     // Set Global data
-    String gTag = "DBG - LightActivity";
-    ProgressDialog pdLight = null;
-    GraphView      gvLight = null;
+    private String          gTag       = "DBG - LightActivity";
+    private ProgressDialog  pdLight    = null;
+    private GraphView       gvLight    = null;
+    private SettingsHandler shSettings = null;
 
     /**
      * Called when the activity is about to become visible.
@@ -39,6 +40,9 @@ public class LightActivity extends AppCompatActivity {
         pdLight = new ProgressDialog(this);
 
         gvLight = (GraphView) findViewById(R.id.gvLight);
+
+        // Create hook on Settings (Shared Preferences)
+        shSettings = new SettingsHandler(this);
     }
 
     /**
@@ -48,8 +52,11 @@ public class LightActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.d(gTag, "The onResume() event");
+        String sSensorNameID = "Visible Light";
+        String sCIK = shSettings.getSettingStringValue(getString(R.string.keyCIK));
+        String sDataPort = shSettings.getSettingStringValue(getString(R.string.keyVisibleLightPort));
         GetDataAsyncTask atkLight = new GetDataAsyncTask();
-        atkLight.setParameters(pdLight, "isl29023_visible", gvLight);
+        atkLight.setParameters(pdLight, gvLight, sCIK, sDataPort, sSensorNameID);
         atkLight.execute();
     }
 

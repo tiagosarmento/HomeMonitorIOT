@@ -22,9 +22,11 @@ import com.jjoe64.graphview.GraphView;
 public class PressureActivity extends AppCompatActivity {
 
     // Set Global data
-    String gTag = "DBG - PressureActivity";
-    ProgressDialog pdPressure = null;
-    GraphView      gvPressure = null;
+    private String          gTag       = "DBG - PressureActivity";
+    private ProgressDialog  pdPressure = null;
+    private GraphView       gvPressure = null;
+    private SettingsHandler shSettings = null;
+
     /**
      * Called when the activity is about to become visible.
      */
@@ -38,6 +40,9 @@ public class PressureActivity extends AppCompatActivity {
         pdPressure =  new ProgressDialog(this);
 
         gvPressure = (GraphView) findViewById(R.id.gvPressure);
+
+        // Create hook on Settings (Shared Preferences)
+        shSettings = new SettingsHandler(this);
     }
 
     /**
@@ -47,8 +52,11 @@ public class PressureActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.d(gTag, "The onResume() event");
+        String sSensorNameID = "Pressure";
+        String sCIK = shSettings.getSettingStringValue(getString(R.string.keyCIK));
+        String sDataPort = shSettings.getSettingStringValue(getString(R.string.keyPressurePort));
         GetDataAsyncTask atkPressure = new GetDataAsyncTask();
-        atkPressure.setParameters(pdPressure, "bmp180_press", gvPressure);
+        atkPressure.setParameters(pdPressure, gvPressure, sCIK, sDataPort, sSensorNameID);
         atkPressure.execute();
     }
 

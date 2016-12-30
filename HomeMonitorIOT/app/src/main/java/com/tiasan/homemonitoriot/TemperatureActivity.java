@@ -23,9 +23,10 @@ import com.jjoe64.graphview.GraphView;
 public class TemperatureActivity extends AppCompatActivity {
     
     // Set Global data
-    String gTag = "DBG - TemperatureActivity";
-    ProgressDialog pdTemperature = null;
-    GraphView      gvTemperature = null;
+    private String          gTag          = "DBG - TemperatureActivity";
+    private ProgressDialog  pdTemperature = null;
+    private GraphView       gvTemperature = null;
+    private SettingsHandler shSettings    = null;
 
     /**
      * Called when the activity is about to become visible.
@@ -40,6 +41,9 @@ public class TemperatureActivity extends AppCompatActivity {
         pdTemperature =  new ProgressDialog(this);
 
         gvTemperature = (GraphView) findViewById(R.id.gvTemperature);
+
+        // Create hook on Settings (Shared Preferences)
+        shSettings = new SettingsHandler(this);
     }
 
     /**
@@ -49,8 +53,11 @@ public class TemperatureActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.d(gTag, "The onResume() event");
+        String sSensorNameID = "Temperature";
+        String sCIK = shSettings.getSettingStringValue(getString(R.string.keyCIK));
+        String sDataPort = shSettings.getSettingStringValue(getString(R.string.keyTemperaturePort));
         GetDataAsyncTask atkTemperature = new GetDataAsyncTask();
-        atkTemperature.setParameters(pdTemperature, "bmp180_tempc", gvTemperature);
+        atkTemperature.setParameters(pdTemperature, gvTemperature, sCIK, sDataPort, sSensorNameID);
         atkTemperature.execute();
     }
 

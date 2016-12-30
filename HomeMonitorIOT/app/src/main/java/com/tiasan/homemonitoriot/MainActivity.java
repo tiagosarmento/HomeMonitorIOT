@@ -338,10 +338,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // GetDataAsyncTask set parameters
         // ProgressDialog pdMsg  : Message to be show during data fetch
         // String sDataPort      : Exosite data port name to be fetched
-        public void setParameters(ProgressDialog progressDialog, TextView textView, SettingsHandler settingsHandler) {
+        public void setParameters(ProgressDialog progressDialog, TextView textView, SettingsHandler shSettings) {
             this.gTextView       = textView;
             this.pdFetchInstData = progressDialog;
-            this.gshSettings     = settingsHandler;
+            this.gshSettings     = shSettings;
         }
 
         private String getExoInstData(String dataPort) {

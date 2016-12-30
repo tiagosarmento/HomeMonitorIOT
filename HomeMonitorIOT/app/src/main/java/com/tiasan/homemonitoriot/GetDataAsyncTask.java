@@ -44,26 +44,31 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 public class GetDataAsyncTask extends AsyncTask<String, Integer, Double> {
 
     // Set Global data
-    private String                     gTag         = "DBG - GetDataAsyncTask";
-    private ProgressDialog             pdFetchData  = null;
-    private String                     gDataPort    = null;
-    private GraphView                  gvPlotData   = null;
-    private LineGraphSeries<DataPoint> gsDataSeries = null;
+    private String                     gTag          = "DBG - GetDataAsyncTask";
+    private ProgressDialog             pdFetchData   = null;
+    private GraphView                  gvPlotData    = null;
+    private String                     gDataPort     = null;
+    private String                     gCIK          = null;
+    private String                     gSensorNameID = null;
+    private LineGraphSeries<DataPoint> gsDataSeries  = null;
 
-    // GetDataAsyncTask set parameters
-    // ProgressDialog pdMsg  : Message to be show during data fetch 
-    // String sDataPort      : Exosite data port name to be fetched
-    public void setParameters(ProgressDialog pdMsg, String sDataPort, GraphView gvGraph) {
-        this.pdFetchData = pdMsg;
-        this.gDataPort   = sDataPort;
-        this.gvPlotData  = gvGraph;
+    public void setParameters(ProgressDialog pdMsg,
+                              GraphView gvGraph,
+                              String sCIK,
+                              String sDataPort,
+                              String sSensorNameID) {
+        this.pdFetchData   = pdMsg;
+        this.gvPlotData    = gvGraph;
+        this.gCIK          = sCIK;
+        this.gDataPort     = sDataPort;
+        this.gSensorNameID = sSensorNameID;
     }
 
 	@Override
 	protected Double doInBackground(String... params) {
 		// TODO Auto-generated method stub
         Log.d(gTag, "doInBackground" );
-	    getExoData(gDataPort);
+	    getExoData();
 		return null;
 	}
 
@@ -71,16 +76,16 @@ public class GetDataAsyncTask extends AsyncTask<String, Integer, Double> {
         Log.d(gTag, "onPostExe");
 
         // Set color line
-        if (gDataPort == "bmp180_tempc") {
+        if (this.gSensorNameID == "Temperature") {
             this.gsDataSeries.setTitle("Temperature");
             this.gsDataSeries.setColor(Color.RED);
-        } else if (gDataPort == "sht21_humid") {
+        } else if (this.gSensorNameID == "Humidity") {
             this.gsDataSeries.setTitle("Humidity");
             this.gsDataSeries.setColor(Color.GREEN);
-        } else if (gDataPort == "isl29023_visible") {
+        } else if (this.gSensorNameID == "Visible Light") {
             this.gsDataSeries.setTitle("Visible Light");
             this.gsDataSeries.setColor(Color.CYAN);
-        } else if (gDataPort == "bmp180_press") {
+        } else if (this.gSensorNameID == "Pressure") {
             this.gsDataSeries.setTitle("Pressure");
             this.gsDataSeries.setColor(Color.BLUE);
         } else { // default case
@@ -117,19 +122,19 @@ public class GetDataAsyncTask extends AsyncTask<String, Integer, Double> {
                 if (isValueX) {
                     // Format X axis values
                     Date dDate = new Date((long) value);
-                    SimpleDateFormat sfdfDate = new SimpleDateFormat("dd/MM/yyyy");
-                    SimpleDateFormat sfdTime  = new SimpleDateFormat("hh:mm:ss aa");
-                    return sfdfDate.format(dDate) + "\n" + sfdTime.format(dDate);
+                    SimpleDateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy");
+                    SimpleDateFormat sdfTime  = new SimpleDateFormat("hh:mm:ss aa");
+                    return sdfDate.format(dDate) + "\n" + sdfTime.format(dDate);
                     //return super.formatLabel(value, isValueX);
                 } else {
                     // Format Y axis values
-                    if (gDataPort == "bmp180_tempc") {
+                    if (gSensorNameID == "Temperature") {
                         return super.formatLabel(value, isValueX) + " °C";
-                    } else if (gDataPort == "sht21_humid") {
+                    } else if (gSensorNameID == "Humidity") {
                         return super.formatLabel(value, isValueX) + " %";
-                    } else if (gDataPort == "isl29023_visible") {
+                    } else if (gSensorNameID == "Visible Light") {
                         return super.formatLabel(value, isValueX) + " Lux";
-                    } else if (gDataPort == "bmp180_press") {
+                    } else if (gSensorNameID == "Pressure") {
                         return super.formatLabel(value, isValueX) + " mBar";
                     } else { // default case
                         return super.formatLabel(value, isValueX);
@@ -146,13 +151,13 @@ public class GetDataAsyncTask extends AsyncTask<String, Integer, Double> {
         // is not necessary
         //this.gvPlotData.getGridLabelRenderer().setHumanRounding(false);
 
-        if (gDataPort == "bmp180_tempc") {
+        if (this.gSensorNameID == "Temperature") {
             this.gvPlotData.setTitle("Temperature Graph");
-        } else if (gDataPort == "sht21_humid") {
+        } else if (this.gSensorNameID == "Humidity") {
             this.gvPlotData.setTitle("Humidity Graph");
-        } else if (gDataPort == "isl29023_visible") {
+        } else if (this.gSensorNameID == "Visible Light") {
             this.gvPlotData.setTitle("Visible Light Graph");
-        } else if (gDataPort == "bmp180_press") {
+        } else if (this.gSensorNameID == "Pressure") {
             this.gvPlotData.setTitle("Pressure Graph");
         } // else - default case without name shown
         //this.gvPlotData.setTitleTextSize(10);
@@ -173,16 +178,17 @@ public class GetDataAsyncTask extends AsyncTask<String, Integer, Double> {
 
     protected void onPreExecute() {
         Log.d(gTag, "onPreExecute" );
-        pdFetchData.setTitle("Fetching " + gDataPort );
+        pdFetchData.setTitle("Fetching " + this.gSensorNameID );
         pdFetchData.setMessage("Please wait a moment...");
         pdFetchData.show();
     }
  
-    private void getExoData(String sDataPort) {
+    private void getExoData() {
+        // Do sanity check on gCIk and gDataPorts
         URL url_exosite = null;
         String sResData = null;
         // 1pull per minute = 60pulls per hour = 1440pulls per day = 4320 pulls per 3 days
-        String json_req = "{\"auth\":{\"cik\":\"ed253edce4b1e6a0bcfd74e18d0397c592530000\"},\"calls\":[{\"procedure\":\"read\",\"arguments\":[{\"alias\":\"" + sDataPort + "\"}, {\"sort\":\"desc\",\"limit\":720}],\"id\":0}]}";
+        String json_req = "{\"auth\":{\"cik\":\"" + this.gCIK + "\"},\"calls\":[{\"procedure\":\"read\",\"arguments\":[{\"alias\":\"" + this.gDataPort + "\"}, {\"sort\":\"desc\",\"limit\":720}],\"id\":0}]}";
         try {
             url_exosite = new URL("http://m2.exosite.com/onep:v1/rpc/process");
         } catch (MalformedURLException e) {
