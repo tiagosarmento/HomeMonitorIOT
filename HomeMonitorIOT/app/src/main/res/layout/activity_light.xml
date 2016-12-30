@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<!--
+    /**
+    * Author: Tiago Sarmento Santos
+    * Github: https://github.com/tiagosarmento/HomeMonitorIOT
+    *
+    * Software License Agreement
+    * The present software is open-source and it is owned by this project contributors. Feel free to
+    * use it on your own and to improve it for your needs. You may not combine this software with
+    * "viral" open-source software in order to form a larger program. This software is being done as
+    * an hobby and a DIY project. It is provided as is and with all possible faults associated.
+    * The software contributors shall not, under any circumstances, be liable for special, incidental
+    * or consequential damages for any reason whatsoever.
+    */
+-->
 <com.jjoe64.graphview.GraphView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"

@@ -1,5 +1,18 @@
+<!--
+ /**
+ * Author: Tiago Sarmento Santos
+ * Github: https://github.com/tiagosarmento/HomeMonitorIOT
+ *
+ * Software License Agreement
+ * The present software is open-source and it is owned by this project contributors. Feel free to
+ * use it on your own and to improve it for your needs. You may not combine this software with
+ * "viral" open-source software in order to form a larger program. This software is being done as
+ * an hobby and a DIY project. It is provided as is and with all possible faults associated.
+ * The software contributors shall not, under any circumstances, be liable for special, incidental
+ * or consequential damages for any reason whatsoever.
+ */
+-->
 <resources>
-
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
@@ -7,5 +20,4 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
 </resources>
