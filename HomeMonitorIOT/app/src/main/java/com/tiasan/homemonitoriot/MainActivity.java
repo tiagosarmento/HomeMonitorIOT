@@ -49,7 +49,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button bHumidity             = null;
     Button bPressure             = null;
     Button bLight                = null;
-    TextView tvMainText          = null;
+    TextView tvTextIntro         = null;
+    TextView tvTextUpd           = null;
+    TextView tvTemperature       = null;
+    TextView tvHumidity          = null;
+    TextView tvPressure          = null;
+    TextView tvAltitude          = null;
+    TextView tvVisibleLight      = null;
+    TextView tvInfraredLight     = null;
     SettingsHandler shSettings   = null;
     ErrorHandler    errorHandler = null;
 
@@ -92,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.mitRefresh) {
             Log.d(gTag, "Refresh button clicked");
             GetInstDataAsyncTask atkInstData = new GetInstDataAsyncTask();
-            atkInstData.setParameters(new ProgressDialog(this), tvMainText, shSettings);
+            atkInstData.setParameters(new ProgressDialog(this), tvTextUpd, shSettings);
             atkInstData.execute();
             return true;
         }
@@ -165,7 +172,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void initTextViews() {
-        tvMainText = (TextView) findViewById(R.id.tvMainActivity);
+        tvTextIntro     = (TextView) findViewById(R.id.tvGenericMsg_Intro);
+        tvTextUpd       = (TextView) findViewById(R.id.tvGenericMsg_Upd);
+        tvTemperature   = (TextView) findViewById(R.id.tvTemperature);
+        tvHumidity      = (TextView) findViewById(R.id.tvHumidity);
+        tvPressure      = (TextView) findViewById(R.id.tvPressure);
+        tvAltitude      = (TextView) findViewById(R.id.tvAltitude);
+        tvVisibleLight  = (TextView) findViewById(R.id.tvVisibleLight);
+        tvInfraredLight = (TextView) findViewById(R.id.tvInfraredLight);
+    }
+
+    public void populateSensorDataTableView() {
+        // Temperature Data
+        if (this.shSettings.getSettingStringValue(getString(R.string.keyTemperatureData)) == "") {
+            tvTemperature.setText("No data yet available");
+        } else {
+            tvTemperature.setText(this.shSettings.getSettingStringValue(getString(R.string.keyTemperatureData)) + "°C");
+        }
+        // Humidity Data
+        if (this.shSettings.getSettingStringValue(getString(R.string.keyHumidityData)) == "") {
+            tvHumidity.setText("No data yet available");
+        } else {
+            tvHumidity.setText(this.shSettings.getSettingStringValue(getString(R.string.keyHumidityData)) + " %");
+        }
+        // Pressure Data
+        if (this.shSettings.getSettingStringValue(getString(R.string.keyPressureData)) == "") {
+            tvPressure.setText("No data yet available");
+        } else {
+            tvPressure.setText(this.shSettings.getSettingStringValue(getString(R.string.keyPressureData)) + " mBar");
+        }
+        // Altitude Data
+        if (this.shSettings.getSettingStringValue(getString(R.string.keyAltitudeData)) == "") {
+            tvAltitude.setText("No data yet available");
+        } else {
+            tvAltitude.setText(this.shSettings.getSettingStringValue(getString(R.string.keyAltitudeData)) + " m");
+        }
+        // Visible Light Data
+        if (this.shSettings.getSettingStringValue(getString(R.string.keyVisibleLightData)) == "") {
+            tvVisibleLight.setText("No data yet available");
+        } else {
+            tvVisibleLight.setText(this.shSettings.getSettingStringValue(getString(R.string.keyVisibleLightData)) + " Lux");
+        }
+        // Infrared Light Data
+        if (this.shSettings.getSettingStringValue(getString(R.string.keyInfraredLightData)) == "") {
+            tvInfraredLight.setText("No data yet available");
+        } else {
+            tvInfraredLight.setText(this.shSettings.getSettingStringValue(getString(R.string.keyInfraredLightData)) + " Lux");
+        }
     }
 
     /**
@@ -186,11 +239,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d(gTag, "The onResume() event");
         if (shSettings.getSettingBooleanValue(getString(R.string.keyAutoUpdate)) == true) {
             GetInstDataAsyncTask atkInstData = new GetInstDataAsyncTask();
-            atkInstData.setParameters(new ProgressDialog(this), tvMainText, shSettings);
+            atkInstData.setParameters(new ProgressDialog(this), tvTextUpd, shSettings);
             atkInstData.execute();
         } else {
-            tvMainText.setText("Sensor data not yet fetched.\nPress 'Refresh' button on ActionBar to fetch data.\n");
+            tvTextUpd.setText("Sensor data not yet fetched.\nPress 'Refresh' button on ActionBar to fetch data.\n");
         }
+
+        // Populate TableView with sensor data
+        populateSensorDataTableView();
     }
 
     /**
@@ -298,25 +354,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         protected void onPostExecute(Double result){
             Log.d(gTag, "onPostExe");
 
-            gTextView.setText("HomeMonitorIOT current data:\n");
-            gTextView.append("\n");
-            gTextView.append("    >> Temperature    : "      + gsBMP180_T.split("=")[1].replaceAll("\\n","")   + " °C\n");
-            gTextView.append("    >> Humidity          : "   + gsBMP180_H.split("=")[1].replaceAll("\\n","")   + " %\n");
-            gTextView.append("    >> Pressure          : "   + gsBMP180_P.split("=")[1].replaceAll("\\n","")   + " mBar\n");
-            gTextView.append("    >> Altitude            : " + gsBMP180_A.split("=")[1].replaceAll("\\n","")   + " m\n");
-            gTextView.append("    >> Visible light     : "   + gsISL29023_V.split("=")[1].replaceAll("\\n","") + " Lux\n");
-            gTextView.append("    >> Infrared light   : "    + gsISL29023_I.split("=")[1].replaceAll("\\n","") + " Lux\n");
-            gTextView.append("\n");
-            gTextView.append("\n");
+            // Save sensor data in SharedPreferences
+            gshSettings.setStringValue(getString(R.string.keyTemperatureData),
+                    gsBMP180_T.split("=")[1].replaceAll("\\n",""));
+            gshSettings.setStringValue(getString(R.string.keyHumidityData),
+                    gsBMP180_H.split("=")[1].replaceAll("\\n",""));
+            gshSettings.setStringValue(getString(R.string.keyPressureData),
+                    gsBMP180_P.split("=")[1].replaceAll("\\n",""));
+            gshSettings.setStringValue(getString(R.string.keyAltitudeData),
+                    gsBMP180_A.split("=")[1].replaceAll("\\n",""));
+            gshSettings.setStringValue(getString(R.string.keyVisibleLightData),
+                    gsISL29023_V.split("=")[1].replaceAll("\\n",""));
+            gshSettings.setStringValue(getString(R.string.keyInfraredLightData),
+                    gsISL29023_I.split("=")[1].replaceAll("\\n",""));
             String sCurrDateTime = DateFormat.getDateTimeInstance().format(new Date());
-            gTextView.append("Latest Update done at: " + sCurrDateTime);
-            gTextView.append("\n");
-            gTextView.append("\n");
-            if (gshSettings.getSettingBooleanValue(getString(R.string.keyAutoUpdate)) == true) {
-                gTextView.append("Auto-updates enabled, new data will be soon available.");
-            } else {
-                gTextView.append("Auto-updates disabled, press 'Refresh' button on ActionBar to fetch newer data.");
-            }
+            gshSettings.setStringValue(getString(R.string.keyLastUpdateTime),
+                    "Latest Update done at: " + sCurrDateTime);
 
             pdFetchInstData.dismiss();
         }

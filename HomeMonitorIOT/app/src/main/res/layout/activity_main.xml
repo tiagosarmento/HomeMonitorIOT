@@ -23,32 +23,159 @@
     android:fillViewport="true" >
 
     <ScrollView
+        android:id="@+id/svActivityMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true" >
 
         <RelativeLayout
-            android:id="@+id/activity_main"
+            android:id="@+id/rlActivityMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fillViewport="true" >
 
             <TextView
+                android:id="@+id/tvGenericMsg_Intro"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:gravity="left"
-                android:text="Press 'Get Instant Data' button to get results..."
-                android:id="@+id/tvMainActivity" />
+                android:layout_marginTop="10dp"
+                android:text="HomeMonitorIOT sensor data" />
 
             <View android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:layout_marginTop="370dp"
+                android:layout_height="2dp"
+                android:layout_below="@id/tvGenericMsg_Intro"
                 android:background="@android:color/darker_gray"
+                android:id="@+id/vLimiter1" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/vLimiter1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/tbMainActivity" >
+
+                <TableRow>
+                    <TextView
+                        android:gravity="left"
+                        android:text="Temperature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/tvTemperature"
+                        android:gravity="left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="No data available"
+                        android:layout_column="2" />
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:gravity="left"
+                        android:text="Humidity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/tvHumidity"
+                        android:gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="No data available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="2" />
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:gravity="left"
+                        android:text="Pressure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/tvPressure"
+                        android:gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No data available"
+                        android:layout_column="2" />
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:gravity="left"
+                        android:text="Altitude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/tvAltitude"
+                        android:gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No data available"
+                        android:layout_column="2" />
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:gravity="left"
+                        android:text="Visible Light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/tvVisibleLight"
+                        android:gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="No data available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="2" />
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:gravity="left"
+                        android:text="Infrared Light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/tvInfraredLight"
+                        android:gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="No data available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="2" />
+                </TableRow>
+
+            </TableLayout>
+
+            <TextView
+                android:id="@+id/tvGenericMsg_Upd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:layout_marginLeft="10dp"
+                android:layout_below="@id/tbMainActivity"
+                android:text="Press 'Refresh' button on ActionBAr to get new data..." />
+
+            <View android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="370dp"
                 android:layout_above="@+id/bTemperature"
-                android:id="@+id/view2" />
+                android:background="@android:color/darker_gray"
+                android:id="@+id/vLimiter2" />
 
             <Button android:id="@+id/bTemperature"
                 android:layout_width="180dp"
