@@ -46,16 +46,14 @@ import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Set Global data
-    String gTag = "DBG - MainActivity";
-
-    Button bTemperature = null;
-    Button bHumidity    = null;
-    Button bPressure    = null;
-    Button bLight       = null;
-
-    TextView tvMainText = null;
-
-    SettingsHandler shSettings = null;
+    String gTag                  = "DBG - MainActivity";
+    Button bTemperature          = null;
+    Button bHumidity             = null;
+    Button bPressure             = null;
+    Button bLight                = null;
+    TextView tvMainText          = null;
+    SettingsHandler shSettings   = null;
+    ErrorHandler    errorHandler = null;
 
     /**
      * Called when the activity is first created.
@@ -77,6 +75,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Create hook on Settings (Shared Preferences)
         shSettings = new SettingsHandler(this);
         shSettings.printSettings();
+
+        // Create hook on ErrorHandler
+        errorHandler = new ErrorHandler(this);
+        // DBG CALL: errorHandler.showErrorMsg("Ups something wrong happened!!");
     }
 
     @Override
