@@ -41,29 +41,35 @@ public class SettingsHandler {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this.gContext);
 
         if (sharedPref.contains(this.gContext.getString(R.string.keyTemperatureData)) == false) {
-            createStringSharedPreferenceEntry(this.gContext.getString(R.string.keyTemperatureData),"");
+            setStringValue(this.gContext.getString(R.string.keyTemperatureData),"");
         }
         if (sharedPref.contains(this.gContext.getString(R.string.keyHumidityData)) == false) {
-            createStringSharedPreferenceEntry(this.gContext.getString(R.string.keyHumidityData),"");
+            setStringValue(this.gContext.getString(R.string.keyHumidityData),"");
         }
         if (sharedPref.contains(this.gContext.getString(R.string.keyPressureData)) == false) {
-            createStringSharedPreferenceEntry(this.gContext.getString(R.string.keyPressureData),"");
+            setStringValue(this.gContext.getString(R.string.keyPressureData),"");
+        }
+        if (sharedPref.contains(this.gContext.getString(R.string.keyAltitudeData)) == false) {
+            setStringValue(this.gContext.getString(R.string.keyAltitudeData),"");
         }
         if (sharedPref.contains(this.gContext.getString(R.string.keyVisibleLightData)) == false) {
-            createStringSharedPreferenceEntry(this.gContext.getString(R.string.keyVisibleLightData),"");
+            setStringValue(this.gContext.getString(R.string.keyVisibleLightData),"");
         }
         if (sharedPref.contains(this.gContext.getString(R.string.keyInfraredLightData)) == false) {
-            createStringSharedPreferenceEntry(this.gContext.getString(R.string.keyInfraredLightData),"");
+            setStringValue(this.gContext.getString(R.string.keyInfraredLightData),"");
+        }
+        if (sharedPref.contains(this.gContext.getString(R.string.keyLastUpdateTime)) == false) {
+            setStringValue(this.gContext.getString(R.string.keyLastUpdateTime),"");
         }
     }
 
     /**
-     * @func Create Preference
+     * @func Set SharedPreference String Value
      * @param sKey
      * @param sValue
-     * @desc Used to create a shared preference key-pair
+     * @desc Used to set an shared preference with a value
      */
-    private void createStringSharedPreferenceEntry(String sKey, String sValue) {
+    public void setStringValue(String sKey, String sValue) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this.gContext);
         SharedPreferences.Editor edSharedPref = sharedPref.edit();
         edSharedPref.putString(sKey, sValue);
@@ -88,8 +94,10 @@ public class SettingsHandler {
         String sTemperatureData   = null;
         String sHumidityData      = null;
         String sPressureData      = null;
+        String sAltitudeData      = null;
         String sVisibleLightData  = null;
         String sInfraredLightData = null;
+        String sLastUpdateTime    = null;
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(gContext);
         // read settings as <key>,<default>
@@ -105,8 +113,10 @@ public class SettingsHandler {
         sTemperatureData   = sharedPref.getString(gContext.getString(R.string.keyTemperatureData), "");
         sHumidityData      = sharedPref.getString(gContext.getString(R.string.keyHumidityData), "");
         sPressureData      = sharedPref.getString(gContext.getString(R.string.keyPressureData), "");
+        sAltitudeData      = sharedPref.getString(gContext.getString(R.string.keyAltitudeData), "");
         sVisibleLightData  = sharedPref.getString(gContext.getString(R.string.keyVisibleLightData), "");
         sInfraredLightData = sharedPref.getString(gContext.getString(R.string.keyInfraredLightData), "");
+        sLastUpdateTime    = sharedPref.getString(gContext.getString(R.string.keyLastUpdateTime), "");
 
         Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyCIK)               + " Value: " + sCIK);
         Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyTemperaturePort)   + " Value: " + sTemperaturePort);
@@ -120,8 +130,10 @@ public class SettingsHandler {
         Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyTemperatureData)   + " Value: " + sTemperatureData);
         Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyHumidityData)      + " Value: " + sHumidityData);
         Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyPressureData)      + " Value: " + sPressureData);
+        Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyAltitudeData)      + " Value: " + sAltitudeData);
         Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyVisibleLightData)  + " Value: " + sVisibleLightData);
         Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyInfraredLightData) + " Value: " + sInfraredLightData);
+        Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyLastUpdateTime) + " Value: " + sLastUpdateTime);
     }
 
     /**

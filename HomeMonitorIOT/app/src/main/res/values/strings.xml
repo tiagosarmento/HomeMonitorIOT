@@ -31,6 +31,8 @@
     <string name="keyTemperatureData">settingsKeyTemperatureData</string>
     <string name="keyHumidityData">settingsKeyHumidityData</string>
     <string name="keyPressureData">settingsKeyPressureData</string>
+    <string name="keyAltitudeData">settingsKeyAltitudeData</string>
     <string name="keyVisibleLightData">settingsKeyVisibleLightData</string>
     <string name="keyInfraredLightData">settingsKeyInfraredLightData</string>
+    <string name="keyLastUpdateTime">settingsKeyLastUpdateTime</string>
 </resources>
