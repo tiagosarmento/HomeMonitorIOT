@@ -24,28 +24,50 @@ import android.util.Log;
 public class SettingsHandler {
 
     // Set Global data
-    String gTag = "DBG - SettingsHandler";
-
-    Context gContext = null;
-
-    // SharedPreferences values
-    private String sCIK               = null;
-    private String sTemperaturePort   = null;
-    private String sHumidityPort      = null;
-    private String sPressurePort      = null;
-    private String sAltitudePort      = null;
-    private String sVisibleLightPort  = null;
-    private String sInfraredLightPort = null;
-    private Boolean bAutoUpdate       = false;
+    private String gTag = "DBG - SettingsHandler";
+    private Context gContext = null;
 
     /**
      * @func SettingsHandler Constructor
      * @param cContext
      */
     SettingsHandler(Context cContext) {
-        gContext = cContext;
+        this.gContext = cContext;
         // When called first time we init the settings with the default values
-        PreferenceManager.setDefaultValues(gContext, R.xml.activity_settings, false);
+        // Create public settings
+        PreferenceManager.setDefaultValues(this.gContext, R.xml.activity_settings, false);
+
+        // Create private settings (key-pairs to hold sensor data), if not yet existing
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this.gContext);
+
+        if (sharedPref.contains(this.gContext.getString(R.string.keyTemperatureData)) == false) {
+            createStringSharedPreferenceEntry(this.gContext.getString(R.string.keyTemperatureData),"");
+        }
+        if (sharedPref.contains(this.gContext.getString(R.string.keyHumidityData)) == false) {
+            createStringSharedPreferenceEntry(this.gContext.getString(R.string.keyHumidityData),"");
+        }
+        if (sharedPref.contains(this.gContext.getString(R.string.keyPressureData)) == false) {
+            createStringSharedPreferenceEntry(this.gContext.getString(R.string.keyPressureData),"");
+        }
+        if (sharedPref.contains(this.gContext.getString(R.string.keyVisibleLightData)) == false) {
+            createStringSharedPreferenceEntry(this.gContext.getString(R.string.keyVisibleLightData),"");
+        }
+        if (sharedPref.contains(this.gContext.getString(R.string.keyInfraredLightData)) == false) {
+            createStringSharedPreferenceEntry(this.gContext.getString(R.string.keyInfraredLightData),"");
+        }
+    }
+
+    /**
+     * @func Create Preference
+     * @param sKey
+     * @param sValue
+     * @desc Used to create a shared preference key-pair
+     */
+    private void createStringSharedPreferenceEntry(String sKey, String sValue) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this.gContext);
+        SharedPreferences.Editor edSharedPref = sharedPref.edit();
+        edSharedPref.putString(sKey, sValue);
+        edSharedPref.commit();
     }
 
     /**
@@ -53,6 +75,22 @@ public class SettingsHandler {
      * @desc Used to print the settings values
      */
     public void printSettings() {
+        // Public SharedPreferences values
+        String sCIK               = null;
+        String sTemperaturePort   = null;
+        String sHumidityPort      = null;
+        String sPressurePort      = null;
+        String sAltitudePort      = null;
+        String sVisibleLightPort  = null;
+        String sInfraredLightPort = null;
+        Boolean bAutoUpdate       = false;
+        // Private SharedPreferences values
+        String sTemperatureData   = null;
+        String sHumidityData      = null;
+        String sPressureData      = null;
+        String sVisibleLightData  = null;
+        String sInfraredLightData = null;
+
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(gContext);
         // read settings as <key>,<default>
         sCIK               = sharedPref.getString(gContext.getString(R.string.keyCIK), "");
@@ -64,6 +102,12 @@ public class SettingsHandler {
         sInfraredLightPort = sharedPref.getString(gContext.getString(R.string.keyInfraredLightPort), "");
         bAutoUpdate        = sharedPref.getBoolean(gContext.getString(R.string.keyAutoUpdate), false);
 
+        sTemperatureData   = sharedPref.getString(gContext.getString(R.string.keyTemperatureData), "");
+        sHumidityData      = sharedPref.getString(gContext.getString(R.string.keyHumidityData), "");
+        sPressureData      = sharedPref.getString(gContext.getString(R.string.keyPressureData), "");
+        sVisibleLightData  = sharedPref.getString(gContext.getString(R.string.keyVisibleLightData), "");
+        sInfraredLightData = sharedPref.getString(gContext.getString(R.string.keyInfraredLightData), "");
+
         Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyCIK)               + " Value: " + sCIK);
         Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyTemperaturePort)   + " Value: " + sTemperaturePort);
         Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyHumidityPort)      + " Value: " + sHumidityPort);
@@ -73,6 +117,11 @@ public class SettingsHandler {
         Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyInfraredLightPort) + " Value: " + sInfraredLightPort);
         Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyAutoUpdate)        + " Value: " + bAutoUpdate);
 
+        Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyTemperatureData)   + " Value: " + sTemperatureData);
+        Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyHumidityData)      + " Value: " + sHumidityData);
+        Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyPressureData)      + " Value: " + sPressureData);
+        Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyVisibleLightData)  + " Value: " + sVisibleLightData);
+        Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyInfraredLightData) + " Value: " + sInfraredLightData);
     }
 
     /**

@@ -28,4 +28,9 @@
     <string name="keyAltitudePort">settingsKeyAltitudePort</string>
     <string name="keyVisibleLightPort">settingsKeyVisibleLightPort</string>
     <string name="keyInfraredLightPort">settingsKeyInfraredLightPort</string>
+    <string name="keyTemperatureData">settingsKeyTemperatureData</string>
+    <string name="keyHumidityData">settingsKeyHumidityData</string>
+    <string name="keyPressureData">settingsKeyPressureData</string>
+    <string name="keyVisibleLightData">settingsKeyVisibleLightData</string>
+    <string name="keyInfraredLightData">settingsKeyInfraredLightData</string>
 </resources>
