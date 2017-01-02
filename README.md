@@ -70,4 +70,7 @@ ToDo...
 - Handle errors
 - Add refresh option on ActiobBar for graphs
 - Add homescreen notifications for: low temperature, high temperature, weather degradation based on pressure measurements
+- Create background task (or other resource) to hold fetched data.
+- Create room in main activity for weather forecast icons:  low temperature, high temperature, weather degradation based on pressure measurements
+- Create icon for the application
 - Clean and refactor code as needed
