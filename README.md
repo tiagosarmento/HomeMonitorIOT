@@ -67,4 +67,7 @@ Some pictures of the activities...
 ToDo...
 
 # 5. ToDo list
-- Add refresh option on graphs
+- Handle errors
+- Add refresh option on ActiobBar for graphs
+- Add homescreen notifications for: low temperature, high temperature, weather degradation based on pressure measurements
+- Clean and refactor code as needed
