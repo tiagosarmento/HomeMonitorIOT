@@ -41,8 +41,6 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.util.Date;
 
-import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Set Global data
@@ -64,9 +62,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d(gTag, "The onCreate() event");
 
         setContentView(R.layout.activity_main);
-
-        // Force portrait view
-        setRequestedOrientation(SCREEN_ORIENTATION_PORTRAIT);
 
         // Do setup
         initButtons();
