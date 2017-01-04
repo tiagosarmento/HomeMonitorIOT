@@ -15,7 +15,12 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tiasan.homemonitoriot">
+
     <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!-- Permission to set the Alarm -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -65,6 +70,21 @@
             android:label="@string/app_name_settings"
             android:parentActivityName=".MainActivity" >
         </activity>
+
+        <!-- Boot Time Alarm Receiver Handler -->
+        <receiver
+            android:name=".AlarmBootReceiver"
+            android:enabled="false" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- Alarm Receiver Handler -->
+        <receiver android:name=".AlarmReceiver" />
+
+        <!-- Alarm Service Handler -->
+        <service android:name=".AlarmService" />
 
         <meta-data
             android:name="com.google.android.gms.version"
