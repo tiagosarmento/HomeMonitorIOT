@@ -102,7 +102,7 @@ public class AlarmService extends IntentService {
                 "Latest Update done at: " + sCurrDateTime);
         // Now that we got sensor data, issue a Notification if needed
         String sTempVal = gshSettings.getSettingStringValue(getString(R.string.keyTemperatureData));
-        if ( 15 <= Float.parseFloat(sTempVal) || 20 >= Float.parseFloat(sTempVal) ) {
+        if ( 15 >= Float.parseFloat(sTempVal) || 20 <= Float.parseFloat(sTempVal) ) {
             issueNotification();
         }
         // Release the device WakeLock, this was locked by AlarmReceiver
@@ -201,9 +201,9 @@ public class AlarmService extends IntentService {
         nNotiBuilder.setAutoCancel(true);
         // Set the Alert case message
         String sTempVal = gshSettings.getSettingStringValue(getString(R.string.keyTemperatureData));
-        if ( 15 <= Float.parseFloat(sTempVal) ) {
+        if ( 15 >= Float.parseFloat(sTempVal) ) {
             nNotiBuilder.setContentText("Low Temperature registered: " + sTempVal + "°C");
-        } else if ( 20 >= Float.parseFloat(sTempVal)) {
+        } else if ( 20 <= Float.parseFloat(sTempVal)) {
             nNotiBuilder.setContentText("High Temperature registered: " + sTempVal + "°C");
         } else {
             nNotiBuilder.setContentText("Generic weather alert!");
