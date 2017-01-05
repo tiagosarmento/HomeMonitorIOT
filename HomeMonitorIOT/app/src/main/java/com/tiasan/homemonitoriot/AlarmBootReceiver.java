@@ -25,19 +25,29 @@ import android.util.Log;
  * application's manifest file. When the user sets the alarm, the receiver is enabled.
  * When the user cancels the alarm, the receiver is disabled, so that rebooting the
  * device will not trigger this receiver.
+ *
+ * @author Tiago Sarmento Santos
+ * @class AlarmBootReceiver
+ * @desc TODO
  */
 public class AlarmBootReceiver extends BroadcastReceiver {
 
+    // Set Global data
     private static final String gTag = "DBG - AlarmBootReceiver";
+    AlarmReceiver arAlarmReceiver = new AlarmReceiver();
 
-    AlarmReceiver alarm = new AlarmReceiver();
-
+    /**
+     * @author Tiago Sarmento Santos
+     * @desc This function set the alarm at boot time
+     * @param context
+     * @param intent
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d(gTag, "The onReceive() event");
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED"))
         {
-            alarm.setAlarm(context);
+            arAlarmReceiver.setAlarm(context);
         }
     }
 }

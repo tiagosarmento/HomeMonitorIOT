@@ -23,119 +23,86 @@ import android.os.SystemClock;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
+/**
+ * @author Tiago Sarmento Santos
+ * @class AlarmReceiver
+ * @desc TODO
+ */
 public class AlarmReceiver extends WakefulBroadcastReceiver {
-    // The app's AlarmManager, which provides access to the system alarm services.
-    private AlarmManager alarmMgr;
-    // The pending intent that is triggered when the alarm fires.
-    private PendingIntent alarmIntent;
 
+    // Set Global data
     private static final String gTag = "DBG - AlarmReceiver";
 
+    private AlarmManager amAlarmManager = null; // AlarmManager to access system alarms
+    private PendingIntent piAlarmIntent = null; // PendingIntent to be used when the alarm fires
+
+    /**
+     * @author Tiago Sarmento Santos
+     * @func onReceive
+     * @desc This function triggers the action to be done when the alarm fires
+     * @param context
+     * @param intent
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d(gTag, "The onReceive() event");
-        // BEGIN_INCLUDE(alarm_onreceive)
-        /*
-         * If your receiver intent includes extras that need to be passed along to the
-         * service, use setComponent() to indicate that the service should handle the
-         * receiver's intent. For example:
-         *
-         * ComponentName comp = new ComponentName(context.getPackageName(),
-         *      MyService.class.getName());
-         *
-         * // This intent passed in this call will include the wake lock extra as well as
-         * // the receiver intent contents.
-         * startWakefulService(context, (intent.setComponent(comp)));
-         *
-         * In this example, we simply create a new intent to deliver to the service.
-         * This intent holds an extra identifying the wake lock.
-         */
-        Intent service = new Intent(context, AlarmService.class);
-
-        // Start the service, keeping the device awake while it is launching.
-        startWakefulService(context, service);
-        // END_INCLUDE(alarm_onreceive)
+        // Create and start the Alarm Service, keeping the device awake while it is running
+        // Device WakeLock is released by the Alarm Service
+        Intent iService = new Intent(context, AlarmService.class);
+        startWakefulService(context, iService);
     }
 
-    // BEGIN_INCLUDE(set_alarm)
     /**
-     * Sets a repeating alarm that runs once a day at approximately 8:30 a.m. When the
-     * alarm fires, the app broadcasts an Intent to this WakefulBroadcastReceiver.
+     * From Android documentation:
+     * This class provides access to the system alarm services. These allow you to schedule your
+     * application to be run at some point in the future. When an alarm goes off, the Intent that
+     * had been registered for it is broadcast by the system, automatically starting the target
+     * application if it is not already running. Registered alarms are retained while the device
+     * is asleep (and can optionally wake the device up if they go off during that time), but will
+     * be cleared if it is turned off and rebooted.
+     *
+     * @author Tiago Sarmento Santos
+     * @func setAlarm
+     * @desc This function sets the AlarmManager and the Intent for the Alarm Action (Service)
      * @param context
      */
     public void setAlarm(Context context) {
         Log.d(gTag, "The setAlarm() event");
-        alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, AlarmReceiver.class);
-        alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-
-        /*
-         * If you don't have precise time requirements, use an inexact repeating alarm
-         * the minimize the drain on the device battery.
-         *
-         * The call below specifies the alarm type, the trigger time, the interval at
-         * which the alarm is fired, and the alarm's associated PendingIntent.
-         * It uses the alarm type RTC_WAKEUP ("Real Time Clock" wake up), which wakes up
-         * the device and triggers the alarm according to the time of the device's clock.
-         *
-         * Alternatively, you can use the alarm type ELAPSED_REALTIME_WAKEUP to trigger
-         * an alarm based on how much time has elapsed since the device was booted. This
-         * is the preferred choice if your alarm is based on elapsed time--for example, if
-         * you simply want your alarm to fire every 60 minutes. You only need to use
-         * RTC_WAKEUP if you want your alarm to fire at a particular date/time. Remember
-         * that clock-based time may not translate well to other locales, and that your
-         * app's behavior could be affected by the user changing the device's time setting.
-         *
-         * Here are some examples of ELAPSED_REALTIME_WAKEUP:
-         *
-         * // Wake up the device to fire a one-time alarm in one minute.
-         * alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-         *         SystemClock.elapsedRealtime() +
-         *         60*1000, alarmIntent);
-         *
-         * // Wake up the device to fire the alarm in 30 minutes, and every 30 minutes
-         * // after that.
-         * alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-         *         AlarmManager.INTERVAL_HALF_HOUR,
-         *         AlarmManager.INTERVAL_HALF_HOUR, alarmIntent);
-         */
-
-        // Set the alarm to fire at approximately 8:30 a.m., according to the device's
-        // clock, and to repeat once a day.
-        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME,
-                SystemClock.elapsedRealtime(), 1000*60, alarmIntent); //runs every minute
-
-        // Enable {@code SampleBootReceiver} to automatically restart the alarm when the
-        // device is rebooted.
-        ComponentName receiver = new ComponentName(context, AlarmBootReceiver.class);
+        amAlarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        Intent iAlarmIntent = new Intent(context, AlarmReceiver.class);
+        piAlarmIntent = PendingIntent.getBroadcast(context, 0, iAlarmIntent, 0);
+        // Set the alarm to fire every 15 minutes (1000*60*15)
+        amAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME,
+                SystemClock.elapsedRealtime(),
+                1000*60*15,
+                piAlarmIntent);
+        // Create hook to enable AlarmBootReceiver to automatically restart the alarm when
+        // the device is rebooted
+        ComponentName arAlarmReceiver = new ComponentName(context, AlarmBootReceiver.class);
         PackageManager pm = context.getPackageManager();
-
-        pm.setComponentEnabledSetting(receiver,
+        pm.setComponentEnabledSetting(arAlarmReceiver,
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 PackageManager.DONT_KILL_APP);
     }
-    // END_INCLUDE(set_alarm)
 
     /**
-     * Cancels the alarm.
+     * @author Tiago Sarmento Santos
+     * @func cancelAlarm
+     * @desc This function cancels the alarm
      * @param context
      */
-    // BEGIN_INCLUDE(cancel_alarm)
     public void cancelAlarm(Context context) {
         Log.d(gTag, "The cancelAlarm() event");
         // If the alarm has been set, cancel it.
-        if (alarmMgr!= null) {
-            alarmMgr.cancel(alarmIntent);
+        if (amAlarmManager!= null) {
+            amAlarmManager.cancel(piAlarmIntent);
         }
-
-        // Disable {@code SampleBootReceiver} so that it doesn't automatically restart the
-        // alarm when the device is rebooted.
-        ComponentName receiver = new ComponentName(context, AlarmBootReceiver.class);
+        // Disable AlarmBootReceiver so that it does not automatically restart the alarm when the
+        // device is rebooted
+        ComponentName arAlarmReceiver = new ComponentName(context, AlarmBootReceiver.class);
         PackageManager pm = context.getPackageManager();
-
-        pm.setComponentEnabledSetting(receiver,
+        pm.setComponentEnabledSetting(arAlarmReceiver,
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                 PackageManager.DONT_KILL_APP);
     }
-    // END_INCLUDE(cancel_alarm)
 }

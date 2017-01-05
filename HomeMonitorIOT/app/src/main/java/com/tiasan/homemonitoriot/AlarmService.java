@@ -14,11 +14,13 @@
 package com.tiasan.homemonitoriot;
 
 import android.app.IntentService;
-import android.app.ProgressDialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,79 +34,88 @@ import java.text.DateFormat;
 import java.util.Date;
 
 /**
- * This {@code IntentService} does the app's actual work.
- * {@code SampleAlarmReceiver} (a {@code WakefulBroadcastReceiver}) holds a
- * partial wake lock for this service while the service does its work. When the
- * service is finished, it calls {@code completeWakefulIntent()} to release the
- * wake lock.
+ * @author Tiago Sarmento Santos
+ * @class AlarmService
+ * @desc This class extends IntentService, and it does the actual Alarm work.
  */
 public class AlarmService extends IntentService {
+
+    // Set Global data
+    private static final String gTag    = "DBG - AlarmService";
+    private String sTemperatureData     = null;
+    private String sHumidityData        = null;
+    private String sPressureData        = null;
+    private String sAltitudeData        = null;
+    private String sVisibleLightData    = null;
+    private String sInfraredLightData   = null;
+    private SettingsHandler gshSettings = null;
+
     /**
-     * AlarmService Constructor
+     * @author Tiago Sarmento Santos
+     * @desc This is the AlarmService class constructor
+     * @constructor AlarmService
      */
     public AlarmService() {
+        // Set a string name, to be used to identify the Alarm in the system
         super("UpdateDataAlarmService");
     }
 
-    private static final String gTag = "DBG - AlarmService";
-
-    // Set Global Exosite data
-    private String gsISL29023_I = null;
-    private String gsISL29023_V = null;
-    private String gsBMP180_T   = null;
-    private String gsBMP180_P   = null;
-    private String gsBMP180_A   = null;
-    private String gsBMP180_H   = null;
-
+    /**
+     * @author Tiago Sarmento Santos
+     * @func onHandleIntent
+     * @desc This function is called when the service is triggered, it does the Service work
+     * @param intent
+     */
     @Override
     protected void onHandleIntent(Intent intent) {
-        // BEGIN_INCLUDE(service_onhandle)
         Log.d(gTag, "The onHandleIntent() event");
-
-        SettingsHandler gshSettings = new SettingsHandler(this);
-        gshSettings.printSettings();
-
-        // Get Light Data
-        Log.d(gTag, "onHandleIntent(): Fetching Light data" );
-        gsISL29023_I = getExoInstData(gshSettings.getSettingStringValue(getString(R.string.keyInfraredLightPort))); //"isl29023_infrared"
-        gsISL29023_V = getExoInstData(gshSettings.getSettingStringValue(getString(R.string.keyVisibleLightPort))); // "isl29023_visible"
-        // Get Temperature
-        Log.d(gTag, "onHandleIntent(): Fetching Temperature data" );
-        gsBMP180_T = getExoInstData(gshSettings.getSettingStringValue(getString(R.string.keyTemperaturePort))); // bmp180_tempc
-        // Get Pressure
-        Log.d(gTag, "onHandleIntent(): Fetching Pressure data" );
-        gsBMP180_P = getExoInstData(gshSettings.getSettingStringValue(getString(R.string.keyPressurePort))); // bmp180_press
-        // Get Altitude
-        Log.d(gTag, "onHandleIntent(): Fetching Altitude data" );
-        gsBMP180_A = getExoInstData(gshSettings.getSettingStringValue(getString(R.string.keyAltitudePort))); // bmp180_alt
-        // Get Humidity
-        Log.d(gTag, "onHandleIntent(): Fetching Humidity data" );
-        gsBMP180_H = getExoInstData(gshSettings.getSettingStringValue(getString(R.string.keyHumidityPort))); // sht21_humid
-
-
-        // Save sensor data in SharedPreferences
+        // Create hook on application settings, private settings are needed to hold sensor data
+        gshSettings = new SettingsHandler(this);
+        // Get Sensor Data from Exosite Platform
+        sTemperatureData   = getExoInstData(
+                gshSettings.getSettingStringValue(getString(R.string.keyTemperaturePort)));
+        sHumidityData      = getExoInstData(
+                gshSettings.getSettingStringValue(getString(R.string.keyHumidityPort)));
+        sPressureData      = getExoInstData(
+                gshSettings.getSettingStringValue(getString(R.string.keyPressurePort)));
+        sAltitudeData      = getExoInstData(
+                gshSettings.getSettingStringValue(getString(R.string.keyAltitudePort)));
+        sVisibleLightData  = getExoInstData(
+                gshSettings.getSettingStringValue(getString(R.string.keyVisibleLightPort)));
+        sInfraredLightData = getExoInstData(
+                gshSettings.getSettingStringValue(getString(R.string.keyInfraredLightPort)));
+        // Save sensor data into application private settings
         gshSettings.setStringValue(getString(R.string.keyTemperatureData),
-                gsBMP180_T.split("=")[1].replaceAll("\\n",""));
+                sTemperatureData.split("=")[1].replaceAll("\\n",""));
         gshSettings.setStringValue(getString(R.string.keyHumidityData),
-                gsBMP180_H.split("=")[1].replaceAll("\\n",""));
+                sHumidityData.split("=")[1].replaceAll("\\n",""));
         gshSettings.setStringValue(getString(R.string.keyPressureData),
-                gsBMP180_P.split("=")[1].replaceAll("\\n",""));
+                sPressureData.split("=")[1].replaceAll("\\n",""));
         gshSettings.setStringValue(getString(R.string.keyAltitudeData),
-                gsBMP180_A.split("=")[1].replaceAll("\\n",""));
+                sAltitudeData.split("=")[1].replaceAll("\\n",""));
         gshSettings.setStringValue(getString(R.string.keyVisibleLightData),
-                gsISL29023_V.split("=")[1].replaceAll("\\n",""));
+                sVisibleLightData.split("=")[1].replaceAll("\\n",""));
         gshSettings.setStringValue(getString(R.string.keyInfraredLightData),
-                gsISL29023_I.split("=")[1].replaceAll("\\n",""));
+                sInfraredLightData.split("=")[1].replaceAll("\\n",""));
         String sCurrDateTime = DateFormat.getDateTimeInstance().format(new Date());
         gshSettings.setStringValue(getString(R.string.keyLastUpdateTime),
                 "Latest Update done at: " + sCurrDateTime);
-
-        gshSettings.printSettings();
-        // Release the wake lock provided by the BroadcastReceiver.
+        // Now that we got sensor data, issue a Notification if needed
+        String sTempVal = gshSettings.getSettingStringValue(getString(R.string.keyTemperatureData));
+        if ( 15 <= Float.parseFloat(sTempVal) || 20 >= Float.parseFloat(sTempVal) ) {
+            issueNotification();
+        }
+        // Release the device WakeLock, this was locked by AlarmReceiver
         AlarmReceiver.completeWakefulIntent(intent);
-        // END_INCLUDE(service_onhandle)
     }
 
+    /**
+     * @author Tiago Sarmento Santos
+     * @func getExoInstData
+     * @desc This function gets from Exosite Platform the latest available value for a sensor
+     * @param dataPort
+     * @return sExoData
+     */
     private String getExoInstData(String dataPort) {
         // Local Data
         InputStream isExoData = null;
@@ -130,7 +141,7 @@ public class AlarmService extends IntentService {
             e.printStackTrace();
         }
         // HTTP Request Header properties
-        url_conn_exosite.addRequestProperty("X-Exosite-CIK", "ed253edce4b1e6a0bcfd74e18d0397c592530000");
+        url_conn_exosite.addRequestProperty("X-Exosite-CIK", gshSettings.getSettingStringValue(getString(R.string.keyCIK)));
         url_conn_exosite.addRequestProperty("Accept", "application/x-www-form-urlencoded; charset=utf-8");
         // Connect to TI Exosite
         try {
@@ -171,5 +182,47 @@ public class AlarmService extends IntentService {
         // Close HTTP URL connection
         url_conn_exosite.disconnect();
         return sExoData;
+    }
+
+    /**
+     * @author Tiago Sarmento Santos
+     * @func issueNotification
+     * @desc This functions issues an alert Notification on device's task bar.
+     */
+    private void issueNotification() {
+        // Set an ID for the notification, you can use this ID to update the notification later on
+        int nID = 1;
+        // Create NotificationBuilder
+        NotificationCompat.Builder nNotiBuilder = new NotificationCompat.Builder(this);
+        // Set Notification builder mandatory parameters
+        nNotiBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        nNotiBuilder.setContentTitle("HomeMonitorIOT Alert");
+        // Set other attributes
+        nNotiBuilder.setAutoCancel(true);
+        // Set the Alert case message
+        String sTempVal = gshSettings.getSettingStringValue(getString(R.string.keyTemperatureData));
+        if ( 15 <= Float.parseFloat(sTempVal) ) {
+            nNotiBuilder.setContentText("Low Temperature registered: " + sTempVal + "°C");
+        } else if ( 20 >= Float.parseFloat(sTempVal)) {
+            nNotiBuilder.setContentText("High Temperature registered: " + sTempVal + "°C");
+        } else {
+            nNotiBuilder.setContentText("Generic weather alert!");
+        }
+        // Create Intent to call MainActivity of your app
+        Intent iMainActivity = new Intent(this, MainActivity.class);
+        // The stack builder object will contain an artificial back stack for the started Activity.
+        // This ensures that navigating backward from the Activity leads out of your application
+        // to the Home screen.
+        TaskStackBuilder tsbBuilder = TaskStackBuilder.create(this);
+        // Adds the back stack for the Intent (but not the Intent itself)
+        tsbBuilder.addParentStack(MainActivity.class);
+        // Adds the Intent that starts the Activity to the top of the stack
+        tsbBuilder.addNextIntent(iMainActivity);
+        PendingIntent piMainActivity = tsbBuilder.getPendingIntent( 0,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        nNotiBuilder.setContentIntent(piMainActivity);
+        NotificationManager nmNotiManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nmNotiManager.notify(nID, nNotiBuilder.build());
     }
 }
