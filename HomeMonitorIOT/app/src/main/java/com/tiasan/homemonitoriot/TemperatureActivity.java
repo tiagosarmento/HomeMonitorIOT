@@ -16,14 +16,15 @@ package com.tiasan.homemonitoriot;
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.jjoe64.graphview.GraphView;
-
 
 public class TemperatureActivity extends AppCompatActivity {
     
     // Set Global data
-    private String          gTag          = "DBG - TemperatureActivity";
+    private String          gTag          = "DBG - TemperatureAct";
     private ProgressDialog  pdTemperature = null;
     private GraphView       gvTemperature = null;
     private SettingsHandler shSettings    = null;
@@ -53,12 +54,7 @@ public class TemperatureActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.d(gTag, "The onResume() event");
-        String sSensorNameID = "Temperature";
-        String sCIK = shSettings.getSettingStringValue(getString(R.string.keyCIK));
-        String sDataPort = shSettings.getSettingStringValue(getString(R.string.keyTemperaturePort));
-        GetDataAsyncTask atkTemperature = new GetDataAsyncTask();
-        atkTemperature.setParameters(pdTemperature, gvTemperature, sCIK, sDataPort, sSensorNameID);
-        atkTemperature.execute();
+        executeGraphAsyncTask();
     }
 
     /**
@@ -86,5 +82,54 @@ public class TemperatureActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         Log.d(gTag, "The onDestroy() event");
+    }
+
+    /**
+     * @author Tiago Sarmento Santos
+     * @func executeGraphAsyncTask
+     * @desc This function fires the async task to plot the temperature graphic
+     */
+    private void executeGraphAsyncTask() {
+        String sSensorNameID = "Temperature";
+        String sCIK = shSettings.getSettingStringValue(getString(R.string.keyCIK));
+        String sDataPort = shSettings.getSettingStringValue(getString(R.string.keyTemperaturePort));
+        GetDataAsyncTask atkTemperature = new GetDataAsyncTask();
+        atkTemperature.setParameters(pdTemperature, gvTemperature, sCIK, sDataPort, sSensorNameID);
+        atkTemperature.execute();
+    }
+
+    /**
+     * @author Tiago Sarmento Santos
+     * @func onCreateOptionsMenu
+     * @desc This function is called to create the options menu
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.app_graph_menu, menu);
+        return true;
+    }
+
+    /**
+     * @author Tiago Sarmento Santos
+     * @func onOptionsItemSelected
+     * @desc This function is called when a menu item is pressed
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.mitGraphRefresh) {
+            Log.d(gTag, "Refresh button clicked");
+            executeGraphAsyncTask();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

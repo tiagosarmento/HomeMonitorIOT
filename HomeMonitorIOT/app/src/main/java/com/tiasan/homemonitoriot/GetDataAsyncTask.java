@@ -104,6 +104,8 @@ public class GetDataAsyncTask extends AsyncTask<String, Integer, Double> {
         this.gvPlotData.getViewport().setScalableY(true);
         this.gvPlotData.getViewport().setScrollableY(true);
 
+        // Remove any old data series and add the new series
+        this.gvPlotData.removeAllSeries();
         this.gvPlotData.addSeries(this.gsDataSeries);
 
         // set manual x bounds to have nice steps

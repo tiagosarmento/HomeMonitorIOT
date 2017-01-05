@@ -68,7 +68,6 @@ ToDo...
 
 # 5. ToDo list
 - Handle errors
-- Add refresh option on ActiobBar for graphs
 - Add homescreen notifications for: low temperature, high temperature, weather degradation based on pressure measurements
 - Create background task to update sensor data tableview.
 - Create room in main activity for weather forecast icons:  low temperature, high temperature, weather degradation based on pressure measurements
