@@ -22,17 +22,6 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.text.DateFormat;
-import java.util.Date;
-
 /**
  * @author Tiago Sarmento Santos
  * @class AlarmService
@@ -42,12 +31,6 @@ public class AlarmService extends IntentService {
 
     // Set Global data
     private static final String gTag    = "DBG - AlarmService";
-    private String sTemperatureData     = null;
-    private String sHumidityData        = null;
-    private String sPressureData        = null;
-    private String sAltitudeData        = null;
-    private String sVisibleLightData    = null;
-    private String sInfraredLightData   = null;
     private SettingsHandler gshSettings = null;
 
     /**
@@ -71,35 +54,10 @@ public class AlarmService extends IntentService {
         Log.d(gTag, "The onHandleIntent() event");
         // Create hook on application settings, private settings are needed to hold sensor data
         gshSettings = new SettingsHandler(this);
-        // Get Sensor Data from Exosite Platform
-        sTemperatureData   = getExoInstData(
-                gshSettings.getSettingStringValue(getString(R.string.keyTemperaturePort)));
-        sHumidityData      = getExoInstData(
-                gshSettings.getSettingStringValue(getString(R.string.keyHumidityPort)));
-        sPressureData      = getExoInstData(
-                gshSettings.getSettingStringValue(getString(R.string.keyPressurePort)));
-        sAltitudeData      = getExoInstData(
-                gshSettings.getSettingStringValue(getString(R.string.keyAltitudePort)));
-        sVisibleLightData  = getExoInstData(
-                gshSettings.getSettingStringValue(getString(R.string.keyVisibleLightPort)));
-        sInfraredLightData = getExoInstData(
-                gshSettings.getSettingStringValue(getString(R.string.keyInfraredLightPort)));
-        // Save sensor data into application private settings
-        gshSettings.setStringValue(getString(R.string.keyTemperatureData),
-                sTemperatureData.split("=")[1].replaceAll("\\n",""));
-        gshSettings.setStringValue(getString(R.string.keyHumidityData),
-                sHumidityData.split("=")[1].replaceAll("\\n",""));
-        gshSettings.setStringValue(getString(R.string.keyPressureData),
-                sPressureData.split("=")[1].replaceAll("\\n",""));
-        gshSettings.setStringValue(getString(R.string.keyAltitudeData),
-                sAltitudeData.split("=")[1].replaceAll("\\n",""));
-        gshSettings.setStringValue(getString(R.string.keyVisibleLightData),
-                sVisibleLightData.split("=")[1].replaceAll("\\n",""));
-        gshSettings.setStringValue(getString(R.string.keyInfraredLightData),
-                sInfraredLightData.split("=")[1].replaceAll("\\n",""));
-        String sCurrDateTime = DateFormat.getDateTimeInstance().format(new Date());
-        gshSettings.setStringValue(getString(R.string.keyLastUpdateTime),
-                "Latest Update done at: " + sCurrDateTime);
+        SensorDataHandler sdHandler = new SensorDataHandler(this, false);
+        sdHandler.updateSensorData();
+        Log.d(gTag, "The updateSensorData() done");
+        gshSettings.printSettings();
         // Now that we got sensor data, issue a Notification if needed
         String sTempVal = gshSettings.getSettingStringValue(getString(R.string.keyTemperatureData));
         if ( 15 >= Float.parseFloat(sTempVal) || 20 <= Float.parseFloat(sTempVal) ) {
@@ -107,81 +65,6 @@ public class AlarmService extends IntentService {
         }
         // Release the device WakeLock, this was locked by AlarmReceiver
         AlarmReceiver.completeWakefulIntent(intent);
-    }
-
-    /**
-     * @author Tiago Sarmento Santos
-     * @func getExoInstData
-     * @desc This function gets from Exosite Platform the latest available value for a sensor
-     * @param dataPort
-     * @return sExoData
-     */
-    private String getExoInstData(String dataPort) {
-        // Local Data
-        InputStream isExoData = null;
-        String      sExoData  = null;
-        // Create URL for TI Exosite
-        URL url_exosite = null;
-        try {
-            url_exosite = new URL("http://m2.exosite.com/onep:v1/stack/alias?" + dataPort);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        // Create HTTP URL Connection for TI Exosite
-        HttpURLConnection url_conn_exosite = null;
-        try {
-            url_conn_exosite = (HttpURLConnection) url_exosite.openConnection();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // Generic settings for HTTP request
-        try {
-            url_conn_exosite.setRequestMethod("GET");
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        }
-        // HTTP Request Header properties
-        url_conn_exosite.addRequestProperty("X-Exosite-CIK", gshSettings.getSettingStringValue(getString(R.string.keyCIK)));
-        url_conn_exosite.addRequestProperty("Accept", "application/x-www-form-urlencoded; charset=utf-8");
-        // Connect to TI Exosite
-        try {
-            url_conn_exosite.connect();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // Get HTTP response with ExoData
-        int retCode = 0;
-        try {
-            retCode = url_conn_exosite.getResponseCode();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (retCode == HttpURLConnection.HTTP_OK) {
-            try {
-                isExoData = url_conn_exosite.getInputStream();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            // Convert the InputStream into a string
-            //Reader reader = null;
-            BufferedReader buffReader = new BufferedReader(new InputStreamReader(isExoData));
-            StringBuilder total = new StringBuilder();
-            String line;
-            try {
-                while ((line = buffReader.readLine()) != null) {
-                    total.append(line).append('\n');
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            sExoData = total.toString();
-            Log.d(gTag, "The response is = " + sExoData);
-        } else {
-            Log.d(gTag, "The response code = " + retCode);
-        }
-        // Close HTTP URL connection
-        url_conn_exosite.disconnect();
-        return sExoData;
     }
 
     /**

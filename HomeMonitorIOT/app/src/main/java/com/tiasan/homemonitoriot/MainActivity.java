@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SettingsHandler shSettings        = null;
     ErrorHandler    errorHandler      = null;
     AlarmReceiver   arUpdateDataAlarm = null;
+    SensorDataHandler gsdHandler      = null;
 
     /**
      * Called when the activity is first created.
@@ -72,6 +73,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Create hook on ErrorHandler
         errorHandler = new ErrorHandler(this);
         // DBG CALL: errorHandler.showErrorMsg("Ups something wrong happened!!");
+
+        // Create hook on SensorDataHandler
+        gsdHandler = new SensorDataHandler(this, true);
+
     }
 
     @Override
@@ -89,7 +94,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
         if (id == R.id.mitRefresh) {
             Log.d(gTag, "Refresh button clicked");
-            // TODO: Push new data, instead of taking the last update on private settings
+            // Fetch the latest available data
+            gsdHandler.updateSensorData();
             // Populate TableView with sensor data
             populateSensorDataTableView();
             return true;
@@ -214,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (this.shSettings.getSettingStringValue(getString(R.string.keyLastUpdateTime)) == "") {
             tvTextUpd.setText("Press 'Refresh' on ActionBar to get new data...");
         } else {
-            tvTextUpd.setText(this.shSettings.getSettingStringValue(getString(R.string.keyLastUpdateTime)) + " Lux");
+            tvTextUpd.setText(this.shSettings.getSettingStringValue(getString(R.string.keyLastUpdateTime)) );
         }
     }
 
