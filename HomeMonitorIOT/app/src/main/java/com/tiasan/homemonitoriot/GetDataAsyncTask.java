@@ -16,7 +16,6 @@ package com.tiasan.homemonitoriot;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 
 import org.json.JSONArray;
@@ -41,10 +40,15 @@ import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+/**
+ * @author Tiago Sarmento Santos
+ * @class GetDataAsyncTask
+ * @desc This class fetches sensor data from Exosite Platform
+ */
 public class GetDataAsyncTask extends AsyncTask<String, Integer, Double> {
 
     // Set Global data
-    private String                     gTag          = "DBG - GetDataAsyncTask";
+    private static final String        gTag          = "DBG - GetDataAsyncTask";
     private ProgressDialog             pdFetchData   = null;
     private GraphView                  gvPlotData    = null;
     private String                     gDataPort     = null;
@@ -67,14 +71,11 @@ public class GetDataAsyncTask extends AsyncTask<String, Integer, Double> {
 	@Override
 	protected Double doInBackground(String... params) {
 		// TODO Auto-generated method stub
-        Log.d(gTag, "doInBackground" );
 	    getExoData();
 		return null;
 	}
 
     protected void onPostExecute(Double result){
-        Log.d(gTag, "onPostExe");
-
         // Set color line
         if (this.gSensorNameID == "Temperature") {
             this.gsDataSeries.setTitle("Temperature");
@@ -175,11 +176,10 @@ public class GetDataAsyncTask extends AsyncTask<String, Integer, Double> {
     }
 
 	protected void onProgressUpdate(Integer... progress){
-        Log.d(gTag, "onProgressUpdate" );
+        // nothing to be done here
 	}
 
     protected void onPreExecute() {
-        Log.d(gTag, "onPreExecute" );
         pdFetchData.setTitle("Fetching " + this.gSensorNameID );
         pdFetchData.setMessage("Please wait a moment...");
         pdFetchData.show();
@@ -273,14 +273,10 @@ public class GetDataAsyncTask extends AsyncTask<String, Integer, Double> {
                 e.printStackTrace();
             }
             sResData = total.toString();
-            Log.d(gTag, "The response is = " + sResData);
         } else {
-            Log.d(gTag, "The response code = " + retCode);
+            // Handle error
         }
-
         url_conn_exosite.disconnect();
-        Log.d(gTag, "get data done");
-
         // Parse data
         if (sResData != null) {
             JSONArray jsarrMainResult = null;
@@ -321,8 +317,6 @@ public class GetDataAsyncTask extends AsyncTask<String, Integer, Double> {
                     double y     = jsarrPointXY.getDouble(1);
                     DataPoint xy = new DataPoint(x, y);
                     dpResDataXY[size-1-i] = xy;
-
-                    Log.d(gTag, "Point try #" + i + ": " + x.getTime() + " " + y);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }       

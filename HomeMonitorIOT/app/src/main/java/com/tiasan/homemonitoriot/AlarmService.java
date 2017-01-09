@@ -20,7 +20,6 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 /**
  * @author Tiago Sarmento Santos
@@ -51,13 +50,10 @@ public class AlarmService extends IntentService {
      */
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.d(gTag, "The onHandleIntent() event");
         // Create hook on application settings, private settings are needed to hold sensor data
         gshSettings = new SettingsHandler(this);
         SensorDataHandler sdHandler = new SensorDataHandler(this, false);
         sdHandler.updateSensorData();
-        Log.d(gTag, "The updateSensorData() done");
-        gshSettings.printSettings();
         // Now that we got sensor data, issue a Notification if needed
         String sTempVal = gshSettings.getSettingStringValue(getString(R.string.keyTemperatureData));
         if ( 15 >= Float.parseFloat(sTempVal) || 20 <= Float.parseFloat(sTempVal) ) {

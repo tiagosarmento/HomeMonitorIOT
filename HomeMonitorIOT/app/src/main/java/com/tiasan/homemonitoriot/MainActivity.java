@@ -28,6 +28,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/**
+ * @author Tiago Sarmento Santos
+ * @class MainActivity
+ * @desc This class is the application Main
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Set Global data
@@ -68,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Create hook on Settings (Shared Preferences)
         shSettings = new SettingsHandler(this);
-        shSettings.printSettings();
 
         // Create hook on ErrorHandler
         errorHandler = new ErrorHandler(this);
@@ -286,32 +290,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         Log.d(gTag, "The onClick() event");
-        Intent intent = null;
+        Intent iActivity;
         // Switch into button id case
         switch(v.getId()) {
             case R.id.bTemperature:
                 // Jump to Temperature Activity
                 Log.d(gTag, "Temperature button clicked.");
-                intent = new Intent(MainActivity.this, TemperatureActivity.class);
-                startActivity(intent);
+                iActivity = new Intent(MainActivity.this, TemperatureActivity.class);
+                startActivity(iActivity);
                 break;
             case R.id.bHumidity:
                 // Jump to Humidity Activity
                 Log.d(gTag, "Humidity button clicked.");
-                intent = new Intent(MainActivity.this, HumidityActivity.class);
-                startActivity(intent);
+                iActivity = new Intent(MainActivity.this, HumidityActivity.class);
+                startActivity(iActivity);
                 break;
             case R.id.bPressure:
                 // Jump to Pressure Activity
                 Log.d(gTag, "Pressure button clicked.");
-                intent = new Intent(MainActivity.this, PressureActivity.class);
-                startActivity(intent);
+                iActivity = new Intent(MainActivity.this, PressureActivity.class);
+                startActivity(iActivity);
                 break;
             case R.id.bLight:
                 // Jump to Light Activity
                 Log.d(gTag, "Light button clicked.");
-                intent = new Intent(MainActivity.this, LightActivity.class);
-                startActivity(intent);
+                iActivity = new Intent(MainActivity.this, LightActivity.class);
+                startActivity(iActivity);
                 break;
         }
     }

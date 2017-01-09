@@ -16,16 +16,19 @@ package com.tiasan.homemonitoriot;
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
+/**
+ * @author Tiago Sarmento Santos
+ * @class SettingsActivity
+ * @desc This class handles the Settings
+ */
 public class SettingsActivity extends AppCompatActivity {
     // Set Global data
-    String gTag = "DBG - SettingsActivity";
+    private static final String gTag = "DBG - SettingsActivity";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(gTag, "The onCreate() event");
         getFragmentManager().beginTransaction().replace(android.R.id.content,
                 new SettingsFragment()).commit();
     }
@@ -36,7 +39,6 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(gTag, "The onStart() event");
     }
 
     /**
@@ -45,7 +47,6 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(gTag, "The onResume() event");
     }
 
     /**
@@ -54,7 +55,6 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(gTag, "The onPause() event");
     }
 
     /**
@@ -63,7 +63,6 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d(gTag, "The onStop() event");
     }
 
     /**
@@ -72,7 +71,6 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(gTag, "The onDestroy() event");
     }
 
 }

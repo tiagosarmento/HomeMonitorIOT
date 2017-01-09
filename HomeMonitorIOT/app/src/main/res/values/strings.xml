@@ -35,4 +35,6 @@
     <string name="keyVisibleLightData">settingsKeyVisibleLightData</string>
     <string name="keyInfraredLightData">settingsKeyInfraredLightData</string>
     <string name="keyLastUpdateTime">settingsKeyLastUpdateTime</string>
+    <string name="exosite_http_base">http://m2.exosite.com/onep:v1/stack/alias?</string>
+    <string name="exosite_json_base">http://m2.exosite.com/onep:v1/rpc/process</string>
 </resources>

@@ -16,7 +16,6 @@ package com.tiasan.homemonitoriot;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -47,7 +46,6 @@ public class SensorDataHandler {
      * @func SensorDataHandler Constructor
      */
     SensorDataHandler(Context cContext, Boolean enableProgressDialog) {
-        Log.d(gTag, "Constructor");
         this.gContext = cContext;
         // Create hook on application settings, private settings are needed to hold sensor data
         this.gshSettings = new SettingsHandler(cContext);
@@ -61,7 +59,6 @@ public class SensorDataHandler {
      * @desc This function is used to get the latest sensor data available on Exosite Platform
      */
     public void updateSensorData() {
-        Log.d(gTag, "updateSensorData");
         UpdateSensorDataAsyncTask atkSensorData = new UpdateSensorDataAsyncTask();
         atkSensorData.setParameters(this.gContext, this.gshSettings, this.bProgressDialog);
         atkSensorData.execute();
@@ -95,7 +92,6 @@ public class SensorDataHandler {
          */
         @Override
         protected Double doInBackground(String... params) {
-            Log.d(gTag, "doInBackground");
             // Get Sensor Data from Exosite Platform
             sTemperatureData   = getSensorData(
                     gshSettings.getSettingStringValue(
@@ -126,7 +122,6 @@ public class SensorDataHandler {
          * @param result
          */
         protected void onPostExecute(Double result){
-            Log.d(gTag, "onPostExecute");
             // Save sensor data into application private settings
             gshSettings.setStringValue(this.gContext.getString(R.string.keyTemperatureData),
                     sTemperatureData.split("=")[1].replaceAll("\\n",""));
@@ -156,7 +151,7 @@ public class SensorDataHandler {
          * @param progress
          */
         protected void onProgressUpdate(Integer... progress){
-            Log.d(gTag, "onProgressUpdate" );
+            // nothing to be done here
         }
 
         /**
@@ -166,7 +161,6 @@ public class SensorDataHandler {
          * @param
          */
         protected void onPreExecute() {
-            Log.d(gTag, "onPreExecute" );
             pdUpdateData = new ProgressDialog(this.gContext);
             if (bProgressDialog != false && pdUpdateData != null) {
                 pdUpdateData.setTitle("Fetching Sensor Data");
@@ -197,14 +191,13 @@ public class SensorDataHandler {
          * @return sExoData
          */
         private String getSensorData(String dataPort) {
-            Log.d(gTag, "getExoInstData on data port: " + dataPort);
             // Local Data
             InputStream isExoData = null;
             String      sExoData  = null;
             // Create URL for TI Exosite
             URL url_exosite = null;
             try {
-                url_exosite = new URL("http://m2.exosite.com/onep:v1/stack/alias?" + dataPort);
+                url_exosite = new URL(this.gContext.getString(R.string.exosite_http_base) + dataPort);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -256,9 +249,8 @@ public class SensorDataHandler {
                     e.printStackTrace();
                 }
                 sExoData = total.toString();
-                Log.d(gTag, "The response is = " + sExoData);
             } else {
-                Log.d(gTag, "The response code = " + retCode);
+                // Handle error
             }
             // Close HTTP URL connection
             url_conn_exosite.disconnect();

@@ -37,7 +37,6 @@ public class ErrorHandler {
     }
 
     void showErrorMsg(String sMsg) {
-        Log.d(gTag, "showErrorMsg");
         AlertDialog.Builder adBuilder = new AlertDialog.Builder(this.gContext);
 
         // Create our AlerDialog contents as a Linear Layout to have a fancy format

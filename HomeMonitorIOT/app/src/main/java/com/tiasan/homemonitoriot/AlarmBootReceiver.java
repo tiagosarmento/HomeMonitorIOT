@@ -28,7 +28,7 @@ import android.util.Log;
  *
  * @author Tiago Sarmento Santos
  * @class AlarmBootReceiver
- * @desc TODO
+ * @desc This class handles the alarm at boot time
  */
 public class AlarmBootReceiver extends BroadcastReceiver {
 
@@ -44,7 +44,6 @@ public class AlarmBootReceiver extends BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d(gTag, "The onReceive() event");
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED"))
         {
             arAlarmReceiver.setAlarm(context);

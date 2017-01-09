@@ -15,19 +15,23 @@ package com.tiasan.homemonitoriot;
 
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.jjoe64.graphview.GraphView;
 
+/**
+ * @author Tiago Sarmento Santos
+ * @class HumidityActivity
+ * @desc This class handles the Humidity Activity
+ */
 public class HumidityActivity extends AppCompatActivity {
     
     // Set Global data
-    private String          gTag       = "DBG - HumidityAct";
-    private ProgressDialog  pdHumidity = null;
-    private GraphView       gvHumidity = null;
-    private SettingsHandler shSettings = null;
+    private static final String gTag       = "DBG - HumidityAct";
+    private ProgressDialog      pdHumidity = null;
+    private GraphView           gvHumidity = null;
+    private SettingsHandler     shSettings = null;
 
     /**
      * Called when the activity is about to become visible.
@@ -35,14 +39,10 @@ public class HumidityActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(gTag, "The onStart() event");
-
+        // Init layout objects
         setContentView(R.layout.activity_humidity);
-
         pdHumidity =  new ProgressDialog(this);
-
         gvHumidity = (GraphView) findViewById(R.id.gvHumidity);
-
         // Create hook on Settings (Shared Preferences)
         shSettings = new SettingsHandler(this);
     }
@@ -53,7 +53,7 @@ public class HumidityActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(gTag, "The onResume() event");
+        // Show Graph
         executeGraphAsyncTask();
     }
 
@@ -63,7 +63,6 @@ public class HumidityActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(gTag, "The onPause() event");
     }
 
     /**
@@ -72,7 +71,6 @@ public class HumidityActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d(gTag, "The onStop() event");
     }
 
     /**
@@ -81,7 +79,6 @@ public class HumidityActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(gTag, "The onDestroy() event");
     }
 
     /**
@@ -126,7 +123,6 @@ public class HumidityActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.mitGraphRefresh) {
-            Log.d(gTag, "Refresh button clicked");
             executeGraphAsyncTask();
             return true;
         }

@@ -21,12 +21,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.SystemClock;
 import android.support.v4.content.WakefulBroadcastReceiver;
-import android.util.Log;
 
 /**
  * @author Tiago Sarmento Santos
  * @class AlarmReceiver
- * @desc This is AlarmReceiver class is the alarm handler
+ * @desc This class manages the alarm
  */
 public class AlarmReceiver extends WakefulBroadcastReceiver {
 
@@ -53,7 +52,6 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d(gTag, "The onReceive() event");
         // Create and start the Alarm Service, keeping the device awake while it is running
         // Device WakeLock is released by the Alarm Service
         Intent iService = new Intent(context, AlarmService.class);
@@ -75,7 +73,6 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
      * @param context
      */
     public void setAlarm(Context context) {
-        Log.d(gTag, "The setAlarm() event");
         amAlarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent iAlarmIntent = new Intent(context, AlarmReceiver.class);
         piAlarmIntent = PendingIntent.getBroadcast(context, nID, iAlarmIntent, 0);
@@ -103,8 +100,6 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
      * @param context
      */
     public void cancelAlarm(Context context) {
-        Log.d(gTag, "The cancelAlarm() event");
-        // If the alarm has been set, cancel it.
         if (amAlarmManager != null) {
             amAlarmManager.cancel(piAlarmIntent);
             piAlarmIntent.cancel();
