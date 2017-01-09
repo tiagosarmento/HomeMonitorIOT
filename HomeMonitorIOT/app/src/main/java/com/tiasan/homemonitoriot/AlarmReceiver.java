@@ -26,15 +26,23 @@ import android.util.Log;
 /**
  * @author Tiago Sarmento Santos
  * @class AlarmReceiver
- * @desc TODO
+ * @desc This is AlarmReceiver class is the alarm handler
  */
 public class AlarmReceiver extends WakefulBroadcastReceiver {
 
     // Set Global data
     private static final String gTag = "DBG - AlarmReceiver";
 
-    private AlarmManager amAlarmManager = null; // AlarmManager to access system alarms
-    private PendingIntent piAlarmIntent = null; // PendingIntent to be used when the alarm fires
+    // AlarmManager and PendingIntent, need to be set as static, because we can have two instances
+    // of AlarmReceiver:
+    // 1. At MainActivity
+    // 2. At AlarmBootReceiver
+    // Not doing so, we risk to call alarm cancellation on NULL AlarmManager, that could lead to an
+    // alarm not being cancelled.
+    // Alternatively we could simply define AlarmManager on both setAlarm() and cancelAlarm()
+    private static AlarmManager amAlarmManager = null; // AlarmManager to access system alarms
+    private static PendingIntent piAlarmIntent = null; // PendingIntent to be used when the alarm fires
+    private final int nID               = 1234; // PendingIntent unique ID
 
     /**
      * @author Tiago Sarmento Santos
@@ -70,11 +78,14 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         Log.d(gTag, "The setAlarm() event");
         amAlarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         Intent iAlarmIntent = new Intent(context, AlarmReceiver.class);
-        piAlarmIntent = PendingIntent.getBroadcast(context, 0, iAlarmIntent, 0);
-        // Set the alarm to fire every 15 minutes (1000*60*15)
+        piAlarmIntent = PendingIntent.getBroadcast(context, nID, iAlarmIntent, 0);
+        // Set the alarm to fire every 60 minutes (1000*60*60)
+        // TI Exosite Platform is free, thus it has some limitations, the maximum number of fetches
+        // per day is 100. Our notification system will be fired every hour, to allow room to run
+        // in a couple of devices
         amAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME,
                 SystemClock.elapsedRealtime(),
-                1000*60*15,
+                1000*60*60,
                 piAlarmIntent);
         // Create hook to enable AlarmBootReceiver to automatically restart the alarm when
         // the device is rebooted
@@ -94,8 +105,9 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     public void cancelAlarm(Context context) {
         Log.d(gTag, "The cancelAlarm() event");
         // If the alarm has been set, cancel it.
-        if (amAlarmManager!= null) {
+        if (amAlarmManager != null) {
             amAlarmManager.cancel(piAlarmIntent);
+            piAlarmIntent.cancel();
         }
         // Disable AlarmBootReceiver so that it does not automatically restart the alarm when the
         // device is rebooted

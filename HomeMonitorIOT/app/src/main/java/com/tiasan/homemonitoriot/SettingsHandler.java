@@ -108,7 +108,7 @@ public class SettingsHandler {
         sVisibleLightPort  = sharedPref.getString(gContext.getString(R.string.keyVisibleLightPort), "");
         sAltitudePort      = sharedPref.getString(gContext.getString(R.string.keyAltitudePort), "");
         sInfraredLightPort = sharedPref.getString(gContext.getString(R.string.keyInfraredLightPort), "");
-        bAutoUpdate        = sharedPref.getBoolean(gContext.getString(R.string.keyAutoUpdate), false);
+        bAutoUpdate        = sharedPref.getBoolean(gContext.getString(R.string.keyNotifications), false);
 
         sTemperatureData   = sharedPref.getString(gContext.getString(R.string.keyTemperatureData), "");
         sHumidityData      = sharedPref.getString(gContext.getString(R.string.keyHumidityData), "");
@@ -125,7 +125,7 @@ public class SettingsHandler {
         Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyAltitudePort)      + " Value: " + sAltitudePort);
         Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyVisibleLightPort)  + " Value: " + sVisibleLightPort);
         Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyInfraredLightPort) + " Value: " + sInfraredLightPort);
-        Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyAutoUpdate)        + " Value: " + bAutoUpdate);
+        Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyNotifications)        + " Value: " + bAutoUpdate);
 
         Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyTemperatureData)   + " Value: " + sTemperatureData);
         Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyHumidityData)      + " Value: " + sHumidityData);

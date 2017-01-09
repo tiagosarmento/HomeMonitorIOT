@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d(gTag, "The onResume() event");
 
         // Check if Update Alarm should enabled or disabled
-        if (shSettings.getSettingBooleanValue(getString(R.string.keyAutoUpdate)) == true) {
+        if (shSettings.getSettingBooleanValue(getString(R.string.keyNotifications)) == true) {
             arUpdateDataAlarm.setAlarm(this);
             Log.d(gTag, "UpdateAlarm ENABLED");
         } else {

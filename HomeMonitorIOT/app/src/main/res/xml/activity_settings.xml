@@ -21,11 +21,11 @@
         android:key="keyGeneral">
 
         <SwitchPreference
-            android:key="@string/keyAutoUpdate"
-            android:title="Automatically update sensor data"
-            android:summary="Enable to automatically fetch sensor data from Exosite Platform."
+            android:key="@string/keyNotifications"
+            android:title="Activate Notifications"
+            android:summary="Enable home screen notifications."
             android:defaultValue="false"
-            android:id="@+id/spAutoUpdate" />
+            android:id="@+id/spNotifications" />
 
         <EditTextPreference
             android:key="@string/keyCIK"
