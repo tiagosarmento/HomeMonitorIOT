@@ -68,8 +68,9 @@ ToDo...
 
 # 5. ToDo list
 - Handle errors
-- Add homescreen notifications for: low temperature, high temperature, weather degradation based on pressure measurements
+- Improve homescreen notifications for: weather degradation based on pressure measurements
 - Create room in main activity for weather forecast icons:  low temperature, high temperature, weather degradation based on pressure measurements
 - Clean and refactor code as needed
-- Code needs lots of sanity checks to avoid unexpected crashes
-- New string values can be created as for: exosite webpage, error messages, constant data, ...
+- Code needs lots of sanity checks to avoid unexpected crashes ie: no wifi dont fetch data
+- New string values can be created as for: error messages, constant data, ...
+
