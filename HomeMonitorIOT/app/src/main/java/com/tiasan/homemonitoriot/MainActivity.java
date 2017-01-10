@@ -31,28 +31,28 @@ import android.widget.TextView;
 /**
  * @author Tiago Sarmento Santos
  * @class MainActivity
- * @desc This class is the application Main
+ * @desc This class is the application Main Activity
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     // Set Global data
-    private static final String gTag  = "DBG - MainActivity";
-    Button bTemperature               = null;
-    Button bHumidity                  = null;
-    Button bPressure                  = null;
-    Button bLight                     = null;
-    TextView tvTextIntro              = null;
-    TextView tvTextUpd                = null;
-    TextView tvTemperature            = null;
-    TextView tvHumidity               = null;
-    TextView tvPressure               = null;
-    TextView tvAltitude               = null;
-    TextView tvVisibleLight           = null;
-    TextView tvInfraredLight          = null;
-    SettingsHandler shSettings        = null;
-    ErrorHandler    errorHandler      = null;
-    AlarmReceiver   arUpdateDataAlarm = null;
-    SensorDataHandler gsdHandler      = null;
+    private static final String gTag              = "DBG - MainActivity";
+    private Button              bTemperature      = null;
+    private Button              bHumidity         = null;
+    private Button              bPressure         = null;
+    private Button              bLight            = null;
+    private TextView            tvTextIntro       = null;
+    private TextView            tvTextUpd         = null;
+    private TextView            tvTemperature     = null;
+    private TextView            tvHumidity        = null;
+    private TextView            tvPressure        = null;
+    private TextView            tvAltitude        = null;
+    private TextView            tvVisibleLight    = null;
+    private TextView            tvInfraredLight   = null;
+    private SettingsHandler     shSettings        = null;
+    private ErrorHandler        errorHandler      = null;
+    private AlarmReceiver       arUpdateDataAlarm = null;
+    private SensorDataHandler   gsdHandler        = null;
 
     /**
      * Called when the activity is first created.
@@ -60,172 +60,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(gTag, "The onCreate() event");
-
+        // Load main layout
         setContentView(R.layout.activity_main);
-
-        // Do setup
-        initButtons();
-        initTextViews();
-
+        // Init main layout objects
+        setupButtonObjects();
+        setupTextViewObjects();
         // Create hook on AlarmReceiver
         arUpdateDataAlarm = new AlarmReceiver();
-
         // Create hook on Settings (Shared Preferences)
         shSettings = new SettingsHandler(this);
-
-        // Create hook on ErrorHandler
-        errorHandler = new ErrorHandler(this);
-        // DBG CALL: errorHandler.showErrorMsg("Ups something wrong happened!!");
-
         // Create hook on SensorDataHandler
         gsdHandler = new SensorDataHandler(this, true);
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.app_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.mitRefresh) {
-            Log.d(gTag, "Refresh button clicked");
-            // Fetch the latest available data
-            gsdHandler.updateSensorData();
-            // Populate TableView with sensor data
-            populateSensorDataTableView();
-            return true;
-        }
-        if (id == R.id.mitSettings) {
-            Log.d(gTag, "Settings button clicked");
-            Intent iSettings = new Intent(MainActivity.this, SettingsActivity.class);
-            startActivity(iSettings);
-            return true;
-        }
-        if (id == R.id.mitAbout) {
-            Log.d(gTag, "About button clicked");
-            showAboutDialog();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     *
-     */
-    public void showAboutDialog() {
-        AlertDialog.Builder adBuilder = new AlertDialog.Builder(this);
-
-        // Create our AlertDialog contents as a Linear Layout to have a fancy format
-        LinearLayout llinear = new LinearLayout(this);
-        llinear.setOrientation(LinearLayout.VERTICAL);
-        llinear.setPadding(10,10,10,10);
-
-        // Sub-layouts, to hold several different messages
-        // Author Credits
-        final TextView tvMsgAuthor = new TextView(this);
-        tvMsgAuthor.setText("Author: Tiago Sarmento Santos.");
-        llinear.addView(tvMsgAuthor);
-        // Contact
-        final TextView tvMsgContact = new TextView(this);
-        final SpannableString ssGitHub = new SpannableString("tiagosarmentosantos@gmail.com");
-        Linkify.addLinks(ssGitHub, Linkify.EMAIL_ADDRESSES);
-        tvMsgContact.setText(ssGitHub);
-        tvMsgContact.setMovementMethod(LinkMovementMethod.getInstance());
-        llinear.addView(tvMsgContact);
-        // Code page
-        final TextView tvMsgGitRepo = new TextView(this);
-        final SpannableString ssGmail = new SpannableString("https://github.com/tiagosarmento/HomeMonitorIOT");
-        Linkify.addLinks(ssGmail, Linkify.WEB_URLS);
-        tvMsgGitRepo.setText(ssGmail);
-        tvMsgGitRepo.setMovementMethod(LinkMovementMethod.getInstance());
-        llinear.addView(tvMsgGitRepo);
-        // Add contents to AlertDialog builder
-        adBuilder.setView(llinear);
-        adBuilder.setTitle("About");
-        adBuilder.setPositiveButton("Dismiss", null);
-        // Show AlertDialog
-        AlertDialog dialog = adBuilder.create();
-        dialog.show();
-    }
-
-    public void initButtons() {
-        // Set the interaction buttons
-        bTemperature = (Button) findViewById(R.id.bTemperature);
-        bTemperature.setOnClickListener(this);
-        
-        bHumidity = (Button) findViewById(R.id.bHumidity);
-        bHumidity.setOnClickListener(this);
-        
-        bPressure = (Button) findViewById(R.id.bPressure);
-        bPressure.setOnClickListener(this);
-        
-        bLight = (Button) findViewById(R.id.bLight);
-        bLight.setOnClickListener(this);
-    }
-
-    public void initTextViews() {
-        tvTextIntro     = (TextView) findViewById(R.id.tvGenericMsg_Intro);
-        tvTextUpd       = (TextView) findViewById(R.id.tvGenericMsg_Upd);
-        tvTemperature   = (TextView) findViewById(R.id.tvTemperature);
-        tvHumidity      = (TextView) findViewById(R.id.tvHumidity);
-        tvPressure      = (TextView) findViewById(R.id.tvPressure);
-        tvAltitude      = (TextView) findViewById(R.id.tvAltitude);
-        tvVisibleLight  = (TextView) findViewById(R.id.tvVisibleLight);
-        tvInfraredLight = (TextView) findViewById(R.id.tvInfraredLight);
-    }
-
-    public void populateSensorDataTableView() {
-        // Temperature Data
-        if (this.shSettings.getSettingStringValue(getString(R.string.keyTemperatureData)) == "") {
-            tvTemperature.setText("No data yet available");
-        } else {
-            tvTemperature.setText(this.shSettings.getSettingStringValue(getString(R.string.keyTemperatureData)) + "°C");
-        }
-        // Humidity Data
-        if (this.shSettings.getSettingStringValue(getString(R.string.keyHumidityData)) == "") {
-            tvHumidity.setText("No data yet available");
-        } else {
-            tvHumidity.setText(this.shSettings.getSettingStringValue(getString(R.string.keyHumidityData)) + " %");
-        }
-        // Pressure Data
-        if (this.shSettings.getSettingStringValue(getString(R.string.keyPressureData)) == "") {
-            tvPressure.setText("No data yet available");
-        } else {
-            tvPressure.setText(this.shSettings.getSettingStringValue(getString(R.string.keyPressureData)) + " mBar");
-        }
-        // Altitude Data
-        if (this.shSettings.getSettingStringValue(getString(R.string.keyAltitudeData)) == "") {
-            tvAltitude.setText("No data yet available");
-        } else {
-            tvAltitude.setText(this.shSettings.getSettingStringValue(getString(R.string.keyAltitudeData)) + " m");
-        }
-        // Visible Light Data
-        if (this.shSettings.getSettingStringValue(getString(R.string.keyVisibleLightData)) == "") {
-            tvVisibleLight.setText("No data yet available");
-        } else {
-            tvVisibleLight.setText(this.shSettings.getSettingStringValue(getString(R.string.keyVisibleLightData)) + " Lux");
-        }
-        // Infrared Light Data
-        if (this.shSettings.getSettingStringValue(getString(R.string.keyInfraredLightData)) == "") {
-            tvInfraredLight.setText("No data yet available");
-        } else {
-            tvInfraredLight.setText(this.shSettings.getSettingStringValue(getString(R.string.keyInfraredLightData)) + " Lux");
-        }
-        // Last update Received
-        if (this.shSettings.getSettingStringValue(getString(R.string.keyLastUpdateTime)) == "") {
-            tvTextUpd.setText("Press 'Refresh' on ActionBar to get new data...");
-        } else {
-            tvTextUpd.setText(this.shSettings.getSettingStringValue(getString(R.string.keyLastUpdateTime)) );
-        }
+        // Create hook on ErrorHandler
+        errorHandler = new ErrorHandler(this);
     }
 
     /**
@@ -234,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(gTag, "The onStart() event");
     }
 
     /**
@@ -243,17 +89,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(gTag, "The onResume() event");
-
-        // Check if Update Alarm should enabled or disabled
-        if (shSettings.getSettingBooleanValue(getString(R.string.keyNotifications)) == true) {
+        // Enable or Disable Notifications, based on Notification Setting
+        if (shSettings.getSettingBooleanValue(getString(R.string.keyNotifications))) {
             arUpdateDataAlarm.setAlarm(this);
-            Log.d(gTag, "UpdateAlarm ENABLED");
         } else {
             arUpdateDataAlarm.cancelAlarm(this);
-            Log.d(gTag, "UpdateAlarm DISABLED");
         }
-
         // Populate TableView with sensor data
         populateSensorDataTableView();
     }
@@ -264,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(gTag, "The onPause() event");
     }
 
     /**
@@ -281,43 +121,204 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(gTag, "The onDestroy() event");
     }
 
-     /**
+    /**
+     * Called when options menu is pressed
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        // Load Options menu
+        getMenuInflater().inflate(R.menu.app_menu, menu);
+        return true;
+    }
+
+    /**
+     * Called when an option is selected on Options Menu
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Take an action depending on option selected
+        switch (item.getItemId()) {
+            case R.id.mitRefresh:
+                // Call data handler to fetch sensor data from Exosite Platform
+                this.gsdHandler.updateSensorData();
+                break;
+            case R.id.mitSettings:
+                // Call settings activity
+                Intent iSettings = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(iSettings);
+                break;
+            case R.id.mitAbout:
+                // Show About Dialog message
+                showAboutDialog();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
+
+    /**
      * Called when a button is clicked.
      */
     @Override
     public void onClick(View v) {
-        Log.d(gTag, "The onClick() event");
         Intent iActivity;
-        // Switch into button id case
+        // Started the consequent activity for a pressed button
         switch(v.getId()) {
             case R.id.bTemperature:
-                // Jump to Temperature Activity
-                Log.d(gTag, "Temperature button clicked.");
                 iActivity = new Intent(MainActivity.this, TemperatureActivity.class);
                 startActivity(iActivity);
                 break;
             case R.id.bHumidity:
-                // Jump to Humidity Activity
-                Log.d(gTag, "Humidity button clicked.");
                 iActivity = new Intent(MainActivity.this, HumidityActivity.class);
                 startActivity(iActivity);
                 break;
             case R.id.bPressure:
-                // Jump to Pressure Activity
-                Log.d(gTag, "Pressure button clicked.");
                 iActivity = new Intent(MainActivity.this, PressureActivity.class);
                 startActivity(iActivity);
                 break;
             case R.id.bLight:
-                // Jump to Light Activity
-                Log.d(gTag, "Light button clicked.");
                 iActivity = new Intent(MainActivity.this, LightActivity.class);
                 startActivity(iActivity);
                 break;
         }
     }
 
+    //
+    // From here down are the MainActivity support functions
+    //
+
+    /**
+     * @author Tiago Sarmento Santos
+     * @func showAboutDialog
+     * @desc This function displays the About dialog message
+     * @return none
+     */
+    private void showAboutDialog() {
+        // Create the AlertDialogBuilder, its the main dialog
+        AlertDialog.Builder adBuilder = new AlertDialog.Builder(this);
+        // Create our AlertDialog contents as a Linear Layout to have a fancy format
+        LinearLayout llinear = new LinearLayout(this);
+        llinear.setOrientation(LinearLayout.VERTICAL);
+        llinear.setPadding(10,10,10,10);
+        // Sub-layouts, to hold several different messages
+        // Author Credits
+        final TextView tvMsgAuthor = new TextView(this);
+        tvMsgAuthor.setText("Author: " + getString(R.string.proj_author));
+        llinear.addView(tvMsgAuthor);
+        // Contact
+        final TextView tvMsgContact = new TextView(this);
+        final SpannableString ssGitHub = new SpannableString(getString(R.string.proj_email));
+        Linkify.addLinks(ssGitHub, Linkify.EMAIL_ADDRESSES);
+        tvMsgContact.setText(ssGitHub);
+        tvMsgContact.setMovementMethod(LinkMovementMethod.getInstance());
+        llinear.addView(tvMsgContact);
+        // Code page
+        final TextView tvMsgGitRepo = new TextView(this);
+        final SpannableString ssGmail = new SpannableString(getString(R.string.proj_page));
+        Linkify.addLinks(ssGmail, Linkify.WEB_URLS);
+        tvMsgGitRepo.setText(ssGmail);
+        tvMsgGitRepo.setMovementMethod(LinkMovementMethod.getInstance());
+        llinear.addView(tvMsgGitRepo);
+        // Add contents to AlertDialog contents to main dialog
+        adBuilder.setView(llinear);
+        adBuilder.setTitle("About");
+        adBuilder.setPositiveButton("Dismiss", null);
+        // Show AlertDialog
+        AlertDialog dialog = adBuilder.create();
+        dialog.show();
+    }
+
+    /**
+     * @author Tiago Sarmento Santos
+     * @func setupButtonObjects
+     * @desc This function does the setup of the MainActivity Button objects
+     * @return none
+     */
+    private void setupButtonObjects() {
+        // Setup buttons objects
+        this.bTemperature = (Button) findViewById(R.id.bTemperature);
+        this.bTemperature.setOnClickListener(this);
+
+        this.bHumidity = (Button) findViewById(R.id.bHumidity);
+        this.bHumidity.setOnClickListener(this);
+
+        this.bPressure = (Button) findViewById(R.id.bPressure);
+        this.bPressure.setOnClickListener(this);
+
+        this.bLight = (Button) findViewById(R.id.bLight);
+        this.bLight.setOnClickListener(this);
+    }
+
+    /**
+     * @author Tiago Sarmento Santos
+     * @func setupTextViewObjects
+     * @desc This function does the setup of the MainActivity TextView objects
+     * @return none
+     */
+    private void setupTextViewObjects() {
+        // Setup TextView objects
+        this.tvTextIntro     = (TextView) findViewById(R.id.tvGenericMsg_Intro);
+        this.tvTextUpd       = (TextView) findViewById(R.id.tvGenericMsg_Upd);
+        this.tvTemperature   = (TextView) findViewById(R.id.tvTemperature);
+        this.tvHumidity      = (TextView) findViewById(R.id.tvHumidity);
+        this.tvPressure      = (TextView) findViewById(R.id.tvPressure);
+        this.tvAltitude      = (TextView) findViewById(R.id.tvAltitude);
+        this.tvVisibleLight  = (TextView) findViewById(R.id.tvVisibleLight);
+        this.tvInfraredLight = (TextView) findViewById(R.id.tvInfraredLight);
+    }
+
+    /**
+     * @author Tiago Sarmento Santos
+     * @func populateSensorDataTableView
+     * @desc This function populates the MainActivity TableView with the sensor data
+     * @return none
+     */
+    private void populateSensorDataTableView() {
+        // Fill in the Temperature Data
+        if (this.shSettings.getSettingStringValue(getString(R.string.keyTemperatureData)) == "") {
+            this.tvTemperature.setText("No data yet available");
+        } else {
+            this.tvTemperature.setText(this.shSettings.getSettingStringValue(getString(R.string.keyTemperatureData)) + "°C");
+        }
+        // Fill in the Humidity Data
+        if (this.shSettings.getSettingStringValue(getString(R.string.keyHumidityData)) == "") {
+            this.tvHumidity.setText("No data yet available");
+        } else {
+            this.tvHumidity.setText(this.shSettings.getSettingStringValue(getString(R.string.keyHumidityData)) + " %");
+        }
+        // Fill in the Pressure Data
+        if (this.shSettings.getSettingStringValue(getString(R.string.keyPressureData)) == "") {
+            this.tvPressure.setText("No data yet available");
+        } else {
+            this.tvPressure.setText(this.shSettings.getSettingStringValue(getString(R.string.keyPressureData)) + " mBar");
+        }
+        // Fill in the Altitude Data
+        if (this.shSettings.getSettingStringValue(getString(R.string.keyAltitudeData)) == "") {
+            this.tvAltitude.setText("No data yet available");
+        } else {
+            this.tvAltitude.setText(this.shSettings.getSettingStringValue(getString(R.string.keyAltitudeData)) + " m");
+        }
+        // Fill in the Visible Light Data
+        if (this.shSettings.getSettingStringValue(getString(R.string.keyVisibleLightData)) == "") {
+            this.tvVisibleLight.setText("No data yet available");
+        } else {
+            this.tvVisibleLight.setText(this.shSettings.getSettingStringValue(getString(R.string.keyVisibleLightData)) + " Lux");
+        }
+        // Fill in the Infrared Light Data
+        if (this.shSettings.getSettingStringValue(getString(R.string.keyInfraredLightData)) == "") {
+            this.tvInfraredLight.setText("No data yet available");
+        } else {
+            this.tvInfraredLight.setText(this.shSettings.getSettingStringValue(getString(R.string.keyInfraredLightData)) + " Lux");
+        }
+        // Fill in the Last update Received
+        if (this.shSettings.getSettingStringValue(getString(R.string.keyLastUpdateTime)) == "") {
+            this.tvTextUpd.setText("Press 'Refresh' on ActionBar to get new data...");
+        } else {
+            this.tvTextUpd.setText(this.shSettings.getSettingStringValue(getString(R.string.keyLastUpdateTime)) );
+        }
+    }
 }

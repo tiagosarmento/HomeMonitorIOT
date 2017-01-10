@@ -19,6 +19,9 @@
     <string name="app_name_pressure">Pressure at Home</string>
     <string name="app_name_light">Visibility at Home</string>
     <string name="app_name_settings">Settings</string>
+    <string name="proj_author">Tiago Sarmento Santos</string>
+    <string name="proj_email">tiagosarmentosantos@gmail.com</string>
+    <string name="proj_page">https://github.com/tiagosarmento/HomeMonitorIOT</string>
     <string name="shared_preferences_file">shared_preferences_file</string>
     <string name="keyNotifications">settingsKeyNotifications</string>
     <string name="keyCIK">settingsKeyCIK</string>

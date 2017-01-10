@@ -73,7 +73,10 @@ public class SettingsHandler {
     public void setStringValue(String sKey, String sValue) {
         SharedPreferences.Editor edSharedPref = this.gsharedPref.edit();
         edSharedPref.putString(sKey, sValue);
-        edSharedPref.commit();
+        if (!edSharedPref.commit()) {
+            // handle error
+            Log.d(gTag, "SharedPreferences failed to commit!");
+        }
     }
 
     /**
