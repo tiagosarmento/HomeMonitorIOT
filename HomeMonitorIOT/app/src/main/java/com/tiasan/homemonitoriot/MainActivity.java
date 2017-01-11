@@ -15,12 +15,12 @@ package com.tiasan.homemonitoriot;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,6 +53,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ErrorHandler        errorHandler      = null;
     private AlarmReceiver       arUpdateDataAlarm = null;
     private SensorDataHandler   gsdHandler        = null;
+
+    private SharedPreferences.OnSharedPreferenceChangeListener gspPrefListener =
+            new SharedPreferences.OnSharedPreferenceChangeListener() {
+                /**
+                 * @func onSharedPreferenceChanged
+                 * @desc Called when there is a change in any SharedPreference
+                 * @param prefs
+                 * @param key
+                 */
+                public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+                    // If there is a change on sensor data stored, we must update TableView
+                    populateSensorDataTableView();
+                }
+            };
 
     /**
      * Called when the activity is first created.
@@ -97,6 +111,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         // Populate TableView with sensor data
         populateSensorDataTableView();
+
+        // Register settings listener
+        shSettings.registerSharedPreference(gspPrefListener);
+
     }
 
     /**
@@ -105,6 +123,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause() {
         super.onPause();
+        // Register settings listener
+        shSettings.unregisterSharedPreference(gspPrefListener);
     }
 
     /**

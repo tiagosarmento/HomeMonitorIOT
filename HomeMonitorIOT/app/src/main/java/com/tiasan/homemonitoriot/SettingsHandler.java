@@ -29,6 +29,7 @@ public class SettingsHandler {
     private static final String gTag        = "DBG - SettingsHandler";
     private Context             gContext    = null;
     private SharedPreferences   gsharedPref = null;
+
     /**
      * @func SettingsHandler Constructor
      * @param cContext
@@ -62,6 +63,22 @@ public class SettingsHandler {
         if (!this.gsharedPref.contains(this.gContext.getString(R.string.keyLastUpdateTime))) {
             setStringValue(this.gContext.getString(R.string.keyLastUpdateTime),"");
         }
+    }
+
+    /**
+     * @func Register SharedPreference listener
+     * @desc Used to set an shared preference with a value
+     */
+    public void registerSharedPreference(SharedPreferences.OnSharedPreferenceChangeListener prefListener) {
+        this.gsharedPref.registerOnSharedPreferenceChangeListener(prefListener);
+    }
+
+    /**
+     * @func Unregister SharedPreference listener
+     * @desc Used to set an shared preference with a value
+     */
+    public void unregisterSharedPreference(SharedPreferences.OnSharedPreferenceChangeListener prefListener) {
+        this.gsharedPref.unregisterOnSharedPreferenceChangeListener(prefListener);
     }
 
     /**
