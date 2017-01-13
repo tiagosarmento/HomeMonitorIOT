@@ -24,6 +24,7 @@
     <string name="proj_page">https://github.com/tiagosarmento/HomeMonitorIOT</string>
     <string name="shared_preferences_file">shared_preferences_file</string>
     <string name="keyNotifications">settingsKeyNotifications</string>
+    <string name="keyAutoUpdate">settingsKeyAutoUpdate</string>
     <string name="keyCIK">settingsKeyCIK</string>
     <string name="keyTemperaturePort">settingsKeyTemperaturePort</string>
     <string name="keyHumidityPort">settingsKeyHumidityPort</string>
@@ -40,4 +41,18 @@
     <string name="keyLastUpdateTime">settingsKeyLastUpdateTime</string>
     <string name="exosite_http_base">http://m2.exosite.com/onep:v1/stack/alias?</string>
     <string name="exosite_json_base">http://m2.exosite.com/onep:v1/rpc/process</string>
+    <string name="open_weather_key">7380b8354b9bec554e099cd7af4db8b6</string>
+    <string name="open_weather_json">http://api.openweathermap.org/data/2.5/weather?q=%1$s&amp;units=metric</string>
+    <string name="keyCityName">settingsKeyCity</string>
+    <string name="keyCountryName">settingsKeyCountry</string>
+    <string name="keyWeatherSunriseData">settingsKeyWeatherSunriseData</string>
+    <string name="keyWeatherSunsetData">settingsKeyWeatherSunsetData</string>
+    <string name="keyWeatherCondition">settingsKeyWeatherCondition</string>
+    <string name="keyWeatherHumidityData">settingsKeyWeatherHumidityData</string>
+    <string name="keyWeatherPressureData">settingsKeyWeatherPressureData</string>
+    <string name="keyWeatherVisibilityData">settingsKeyWeatherVisibilityData</string>
+    <string name="keyWeatherTemperatureData">settingsKeyWeatherTemperatureData</string>
+    <string name="keyWeatherTemperatureMinData">settingsKeyWeatherTemperatureMinData</string>
+    <string name="keyWeatherTemperatureMaxData">settingsKeyWeatherTemperatureMaxData</string>
+    <string name="keyWeatherWindSpeedData">settingsKeyWeatherWindSpeedData</string>
 </resources>

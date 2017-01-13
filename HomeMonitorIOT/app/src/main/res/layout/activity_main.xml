@@ -35,17 +35,19 @@
             android:fillViewport="true" >
 
             <TextView
-                android:id="@+id/tvGenericMsg_Intro"
+                android:id="@+id/tvSensorIntro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="HomeMonitorIOT sensor data" />
+                android:text="Home Sensor Data"
+                android:textSize="15dp"
+                android:textStyle="bold"/>
 
             <View android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:layout_below="@id/tvGenericMsg_Intro"
+                android:layout_below="@id/tvSensorIntro"
                 android:background="@android:color/darker_gray"
                 android:id="@+id/vLimiter1" />
 
@@ -162,7 +164,7 @@
             </TableLayout>
 
             <TextView
-                android:id="@+id/tvGenericMsg_Upd"
+                android:id="@+id/tvSensorFinal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
@@ -172,10 +174,248 @@
 
             <View android:layout_width="match_parent"
                 android:layout_height="2dp"
+                android:layout_below="@+id/tvSensorFinal"
+                android:background="@android:color/darker_gray"
+                android:id="@+id/vLimiter2" />
+
+            <TextView
+                android:id="@+id/tvWeatherIntro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_below="@+id/vLimiter2"
+                android:text="Weather Data"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <View android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@+id/tvWeatherIntro"
+                android:background="@android:color/darker_gray"
+                android:id="@+id/vLimiter3" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/vLimiter3"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/tbWeatherTable" >
+
+                <TableRow>
+                    <TextView
+                        android:gravity="left"
+                        android:text="City"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/tvWeatherCityName"
+                        android:gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="No data available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="2" />
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:gravity="left"
+                        android:text="Country"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/tvWeatherCountryName"
+                        android:gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="No data available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="2" />
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:gravity="left"
+                        android:text="Temperature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/tvWeatherTemperature"
+                        android:gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="No data available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="2" />
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:gravity="left"
+                        android:text="Temperature Min"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/tvWeatherTemperatureMin"
+                        android:gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="No data available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="2" />
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:gravity="left"
+                        android:text="Temperature Max"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/tvWeatherTemperatureMax"
+                        android:gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="No data available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="2" />
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:gravity="left"
+                        android:text="Humidity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/tvWeatherHumidity"
+                        android:gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="No data available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="2" />
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:gravity="left"
+                        android:text="Pressure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/tvWeatherPressure"
+                        android:gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="No data available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="2" />
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:gravity="left"
+                        android:text="Visibility"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/tvWeatherVisibility"
+                        android:gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="No data available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="2" />
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:gravity="left"
+                        android:text="Wind Speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/tvWeatherWindSpeed"
+                        android:gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="No data available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="2" />
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:gravity="left"
+                        android:text="Sunrise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/tvWeatherSunrise"
+                        android:gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="No data available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="2" />
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:gravity="left"
+                        android:text="Sunset"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/tvWeatherSunset"
+                        android:gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="No data available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="2" />
+                </TableRow>
+
+                <TableRow>
+                    <TextView
+                        android:gravity="left"
+                        android:text="Conditions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
+                    <TextView
+                        android:id="@+id/tvWeatherCondition"
+                        android:gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:text="No data available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="2" />
+                </TableRow>
+
+            </TableLayout>
+
+
+            <View android:layout_width="match_parent"
+                android:layout_height="2dp"
                 android:layout_marginTop="370dp"
                 android:layout_above="@+id/bTemperature"
                 android:background="@android:color/darker_gray"
-                android:id="@+id/vLimiter2" />
+                android:id="@+id/vLimiter4" />
 
             <Button android:id="@+id/bTemperature"
                 android:layout_width="180dp"

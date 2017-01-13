@@ -29,11 +29,12 @@ import java.text.DateFormat;
 import java.util.Date;
 
 /**
-* @author Tiago Sarmento Santos
-* @class SensorDataHandler
-* @desc This class is used to handle the sensor data from Exosite Platform
-        */
+ * @author Tiago Sarmento Santos
+ * @class SensorDataHandler
+ * @desc This class is used to handle the sensor data from Exosite Platform
+ */
 public class SensorDataHandler {
+
     // Set Global data
     private static final String gTag            = "DBG - SensorDataHandler";
     private SettingsHandler     gshSettings     = null;

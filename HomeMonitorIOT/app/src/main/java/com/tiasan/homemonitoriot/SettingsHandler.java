@@ -109,7 +109,10 @@ public class SettingsHandler {
         String sVisibleLightPort  = this.gsharedPref.getString(gContext.getString(R.string.keyVisibleLightPort), "");
         String sAltitudePort      = this.gsharedPref.getString(gContext.getString(R.string.keyAltitudePort), "");
         String sInfraredLightPort = this.gsharedPref.getString(gContext.getString(R.string.keyInfraredLightPort), "");
-        Boolean bAutoUpdate       = this.gsharedPref.getBoolean(gContext.getString(R.string.keyNotifications), false);
+        String sCity              = this.gsharedPref.getString(gContext.getString(R.string.keyCityName), "");
+        Boolean bNotifications    = this.gsharedPref.getBoolean(gContext.getString(R.string.keyNotifications), false);
+        Boolean bAutoUpdate       = this.gsharedPref.getBoolean(gContext.getString(R.string.keyAutoUpdate), false);
+
         // Private SharedPreferences values: read settings as <key>,<default>
         String sTemperatureData   = this.gsharedPref.getString(gContext.getString(R.string.keyTemperatureData), "");
         String sHumidityData      = this.gsharedPref.getString(gContext.getString(R.string.keyHumidityData), "");
@@ -126,7 +129,10 @@ public class SettingsHandler {
         Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyAltitudePort)      + " Value: " + sAltitudePort);
         Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyVisibleLightPort)  + " Value: " + sVisibleLightPort);
         Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyInfraredLightPort) + " Value: " + sInfraredLightPort);
-        Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyNotifications)     + " Value: " + bAutoUpdate);
+        Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyNotifications)     + " Value: " + bNotifications);
+        Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyAutoUpdate)     + " Value: " + bAutoUpdate);
+
+        Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyCityName) + " Value: " + sCity);
 
         Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyTemperatureData)   + " Value: " + sTemperatureData);
         Log.d(gTag, "Settings key: " + gContext.getString(R.string.keyHumidityData)      + " Value: " + sHumidityData);
