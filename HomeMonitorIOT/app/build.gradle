@@ -27,6 +27,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
-    // Added Android Graph View dependency
+    // Added Android Graph View library dependency
     compile 'com.jjoe64:graphview:4.2.1'
+    // Added Android Weather icons library dependency
+    compile 'com.github.pwittchen:weathericonview:1.1.0'
 }
