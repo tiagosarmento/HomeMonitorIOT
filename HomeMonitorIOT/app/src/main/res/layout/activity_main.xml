@@ -75,14 +75,6 @@
                         android:layout_marginLeft="10dp"
                         android:text="No data available"
                         android:layout_column="2" />
-                    <com.github.pwittchen.weathericonview.WeatherIconView
-                        android:id="@+id/wiTemperature"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        custom:weatherIconResource="@string/wi_thermometer"
-                        custom:weatherIconColor="@android:color/black"
-                        custom:weatherIconSize="20" />
                 </TableRow>
 
                 <TableRow>
@@ -100,14 +92,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="2" />
-                    <com.github.pwittchen.weathericonview.WeatherIconView
-                        android:id="@+id/wiHumidity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        custom:weatherIconResource="@string/wi_humidity"
-                        custom:weatherIconColor="@android:color/black"
-                        custom:weatherIconSize="20" />
                 </TableRow>
 
                 <TableRow>
@@ -125,14 +109,6 @@
                         android:layout_height="wrap_content"
                         android:text="No data available"
                         android:layout_column="2" />
-                    <com.github.pwittchen.weathericonview.WeatherIconView
-                        android:id="@+id/wiPressure"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        custom:weatherIconResource="@string/wi_barometer"
-                        custom:weatherIconColor="@android:color/black"
-                        custom:weatherIconSize="20" />
                 </TableRow>
 
                 <TableRow>
@@ -167,14 +143,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="2" />
-                    <com.github.pwittchen.weathericonview.WeatherIconView
-                        android:id="@+id/wiVisibleLight"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        custom:weatherIconResource="@string/wi_windy"
-                        custom:weatherIconColor="@android:color/black"
-                        custom:weatherIconSize="20" />
                 </TableRow>
 
                 <TableRow>
@@ -192,14 +160,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="2" />
-                    <com.github.pwittchen.weathericonview.WeatherIconView
-                        android:id="@+id/wiInfraredLight"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        custom:weatherIconResource="@string/wi_windy"
-                        custom:weatherIconColor="@android:color/black"
-                        custom:weatherIconSize="20" />
                 </TableRow>
 
             </TableLayout>
@@ -246,33 +206,23 @@
 
                 <TableRow>
                     <TextView
-                        android:id="@+id/tvWeatherCityName"
-                        android:gravity="left"
+                        android:id="@+id/tvWeatherLocalName"
+                        android:gravity="center"
                         android:text="City"
+                        android:textSize="18dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="1" />
-                    <TextView
-                        android:id="@+id/tvWeatherCountryName"
-                        android:gravity="left"
-                        android:text="Country"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_column="2" />
-                </TableRow>
-
-                <TableRow>
                     <com.github.pwittchen.weathericonview.WeatherIconView
                         android:id="@+id/wiWeatherTemp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:gravity="right"
+                        android:gravity="center"
                         android:layout_column="2"
                         custom:weatherIconResource="@string/wi_thermometer"
-                        custom:weatherIconColor="@android:color/black"
-                        custom:weatherIconSize="20" />
+                        custom:weatherIconColor="@color/lightred"
+                        custom:weatherIconSize="30" />
                     <TextView
                         android:id="@+id/tvWeatherTemperature"
                         android:gravity="left"
@@ -286,11 +236,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:gravity="right"
+                        android:gravity="center"
                         android:layout_column="4"
                         custom:weatherIconResource="@string/wi_thermometer"
                         custom:weatherIconColor="@color/cyan"
-                        custom:weatherIconSize="20" />
+                        custom:weatherIconSize="30" />
                     <TextView
                         android:id="@+id/tvWeatherTemperatureMin"
                         android:gravity="left"
@@ -304,11 +254,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:gravity="right"
+                        android:gravity="center"
                         android:layout_column="6"
                         custom:weatherIconResource="@string/wi_thermometer"
                         custom:weatherIconColor="@color/darkred"
-                        custom:weatherIconSize="20" />
+                        custom:weatherIconSize="30" />
                     <TextView
                         android:id="@+id/tvWeatherTemperatureMax"
                         android:gravity="left"
@@ -321,15 +271,25 @@
 
                 <TableRow>
                     <com.github.pwittchen.weathericonview.WeatherIconView
+                        android:id="@+id/wiWeatherForecast"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center"
+                        android:layout_column="1"
+                        custom:weatherIconResource="@string/wi_forecast_io_clear_day"
+                        custom:weatherIconColor="@color/colorAccent"
+                        custom:weatherIconSize="30" />
+                    <com.github.pwittchen.weathericonview.WeatherIconView
                         android:id="@+id/wiWeatherHumidity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:gravity="right"
+                        android:gravity="center"
                         android:layout_column="2"
                         custom:weatherIconResource="@string/wi_humidity"
-                        custom:weatherIconColor="@color/cyan"
-                        custom:weatherIconSize="20" />
+                        custom:weatherIconColor="@color/darkblue"
+                        custom:weatherIconSize="30" />
                     <TextView
                         android:id="@+id/tvWeatherHumidity"
                         android:gravity="left"
@@ -343,11 +303,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:gravity="right"
+                        android:gravity="center"
                         android:layout_column="4"
                         custom:weatherIconResource="@string/wi_barometer"
-                        custom:weatherIconColor="@android:color/black"
-                        custom:weatherIconSize="20" />
+                        custom:weatherIconColor="@color/purple"
+                        custom:weatherIconSize="30" />
                     <TextView
                         android:id="@+id/tvWeatherPressure"
                         android:gravity="left"
@@ -361,11 +321,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:gravity="right"
+                        android:gravity="center"
                         android:layout_column="6"
-                        custom:weatherIconResource="@string/wi_windy"
-                        custom:weatherIconColor="@android:color/black"
-                        custom:weatherIconSize="20" />
+                        custom:weatherIconResource="@string/wi_dust"
+                        custom:weatherIconColor="@color/lightgray"
+                        custom:weatherIconSize="30" />
                     <TextView
                         android:id="@+id/tvWeatherVisibility"
                         android:gravity="left"
@@ -377,16 +337,24 @@
                 </TableRow>
 
                 <TableRow>
+                    <TextView
+                        android:id="@+id/tvWeatherCondition"
+                        android:gravity="center"
+                        android:textSize="18dp"
+                        android:text="forecast"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1" />
                     <com.github.pwittchen.weathericonview.WeatherIconView
                         android:id="@+id/wiWeatherWindSpeed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:gravity="right"
+                        android:gravity="center"
                         android:layout_column="2"
-                        custom:weatherIconResource="@string/wi_windy"
-                        custom:weatherIconColor="@android:color/black"
-                        custom:weatherIconSize="20" />
+                        custom:weatherIconResource="@string/wi_strong_wind"
+                        custom:weatherIconColor="@color/lightblue"
+                        custom:weatherIconSize="30" />
                     <TextView
                         android:id="@+id/tvWeatherWindSpeed"
                         android:gravity="left"
@@ -400,11 +368,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:gravity="right"
+                        android:gravity="center"
                         android:layout_column="4"
                         custom:weatherIconResource="@string/wi_sunrise"
                         custom:weatherIconColor="@color/orange"
-                        custom:weatherIconSize="20" />
+                        custom:weatherIconSize="30" />
                     <TextView
                         android:id="@+id/tvWeatherSunrise"
                         android:gravity="left"
@@ -418,11 +386,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:gravity="right"
+                        android:gravity="center"
                         android:layout_column="6"
                         custom:weatherIconResource="@string/wi_sunset"
                         custom:weatherIconColor="@color/darkorange"
-                        custom:weatherIconSize="20" />
+                        custom:weatherIconSize="30" />
                     <TextView
                         android:id="@+id/tvWeatherSunset"
                         android:gravity="left"
@@ -431,17 +399,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_column="7" />
-                </TableRow>
-
-                <TableRow>
-                    <TextView
-                        android:id="@+id/tvWeatherCondition"
-                        android:gravity="left"
-                        android:text="forecast"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_column="2" />
                 </TableRow>
 
             </TableLayout>

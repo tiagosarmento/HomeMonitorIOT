@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button              bHumidity               = null;
     private Button              bPressure               = null;
     private Button              bLight                  = null;
-    private TextView            tvTextIntro             = null;
     private TextView            tvTextUpd               = null;
     private TextView            tvTemperature           = null;
     private TextView            tvHumidity              = null;
@@ -49,8 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView            tvAltitude              = null;
     private TextView            tvVisibleLight          = null;
     private TextView            tvInfraredLight         = null;
-    private TextView            tvWeatherCity           = null;
-    private TextView            tvWeatherCountryName    = null;
+    private TextView            tvWeatherLocal          = null;
     private TextView            tvWeatherTemperature    = null;
     private TextView            tvWeatherTemperatureMin = null;
     private TextView            tvWeatherTemperatureMax = null;
@@ -300,7 +298,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void setupTextViewObjects() {
         // Setup Sensor data TextView objects
-        this.tvTextIntro     = (TextView) findViewById(R.id.tvSensorIntro);
         this.tvTextUpd       = (TextView) findViewById(R.id.tvSensorFinal);
         this.tvTemperature   = (TextView) findViewById(R.id.tvTemperature);
         this.tvHumidity      = (TextView) findViewById(R.id.tvHumidity);
@@ -309,8 +306,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.tvVisibleLight  = (TextView) findViewById(R.id.tvVisibleLight);
         this.tvInfraredLight = (TextView) findViewById(R.id.tvInfraredLight);
         // Setup Weather data TextView objects
-        this.tvWeatherCity           = (TextView) findViewById(R.id.tvWeatherCityName);
-        this.tvWeatherCountryName    = (TextView) findViewById(R.id.tvWeatherCountryName);
+        this.tvWeatherLocal          = (TextView) findViewById(R.id.tvWeatherLocalName);
         this.tvWeatherTemperature    = (TextView) findViewById(R.id.tvWeatherTemperature);
         this.tvWeatherTemperatureMin = (TextView) findViewById(R.id.tvWeatherTemperatureMin);
         this.tvWeatherTemperatureMax = (TextView) findViewById(R.id.tvWeatherTemperatureMax);
@@ -381,17 +377,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * @return none
      */
     private void populateWeatherDataTableView() {
-        // Fill in the City name
+        // Fill in the Local/City name
         if (this.shSettings.getSettingStringValue(getString(R.string.keyCityName)) == "") {
-            this.tvWeatherCity.setText("No data yet available");
+            this.tvWeatherLocal.setText("No data yet available");
         } else {
-            this.tvWeatherCity.setText(this.shSettings.getSettingStringValue(getString(R.string.keyCityName)));
-        }
-        // Fill in the Country name
-        if (this.shSettings.getSettingStringValue(getString(R.string.keyCountryName)) == "") {
-            this.tvWeatherCountryName.setText("No data yet available");
-        } else {
-            this.tvWeatherCountryName.setText(this.shSettings.getSettingStringValue(getString(R.string.keyCountryName)));
+            this.tvWeatherLocal.setText(this.shSettings.getSettingStringValue(getString(R.string.keyCityName)) + "," + " " + this.shSettings.getSettingStringValue(getString(R.string.keyCountryName)));
         }
         // Fill in the Temperature data
         if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherTemperatureData)) == "") {
