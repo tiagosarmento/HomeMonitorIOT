@@ -202,6 +202,7 @@
                 android:layout_below="@id/vLimiter3"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:shrinkColumns="2,4,6"
                 android:id="@+id/tbWeatherTable" >
 
                 <TableRow>
@@ -209,7 +210,7 @@
                         android:id="@+id/tvWeatherLocalName"
                         android:gravity="center"
                         android:text="City"
-                        android:textSize="18dp"
+                        android:textSize="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="1" />
@@ -271,7 +272,7 @@
 
                 <TableRow>
                     <com.github.pwittchen.weathericonview.WeatherIconView
-                        android:id="@+id/wiWeatherForecast"
+                        android:id="@+id/wiWeatherConditionID"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -340,7 +341,7 @@
                     <TextView
                         android:id="@+id/tvWeatherCondition"
                         android:gravity="center"
-                        android:textSize="18dp"
+                        android:textSize="15dp"
                         android:text="forecast"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

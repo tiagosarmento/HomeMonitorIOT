@@ -225,7 +225,8 @@ public class WeatherDataHandler {
                 // Get from weather object: "weather"
                 this.gshSettings.setStringValue(this.gContext.getString(R.string.keyWeatherCondition),
                         this.gjsWeatherData.getJSONArray("weather").getJSONObject(0).getString("description"));
-
+                this.gshSettings.setStringValue(this.gContext.getString(R.string.keyWeatherConditionID),
+                        this.gjsWeatherData.getJSONArray("weather").getJSONObject(0).getString("icon"));
                 // Get from weather object: "main"
                 this.gshSettings.setStringValue(this.gContext.getString(R.string.keyWeatherTemperatureData),
                         this.gjsWeatherData.getJSONObject("main").getString("temp"));

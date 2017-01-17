@@ -23,6 +23,7 @@
     <string name="proj_email">tiagosarmentosantos@gmail.com</string>
     <string name="proj_page">https://github.com/tiagosarmento/HomeMonitorIOT</string>
     <string name="shared_preferences_file">shared_preferences_file</string>
+    <string name="data_NoData">N/A</string>
     <string name="keyNotifications">settingsKeyNotifications</string>
     <string name="keyAutoUpdate">settingsKeyAutoUpdate</string>
     <string name="keyCIK">settingsKeyCIK</string>
@@ -48,6 +49,7 @@
     <string name="keyWeatherSunriseData">settingsKeyWeatherSunriseData</string>
     <string name="keyWeatherSunsetData">settingsKeyWeatherSunsetData</string>
     <string name="keyWeatherCondition">settingsKeyWeatherCondition</string>
+    <string name="keyWeatherConditionID">settingsKeyWeatherConditionID</string>
     <string name="keyWeatherHumidityData">settingsKeyWeatherHumidityData</string>
     <string name="keyWeatherPressureData">settingsKeyWeatherPressureData</string>
     <string name="keyWeatherVisibilityData">settingsKeyWeatherVisibilityData</string>

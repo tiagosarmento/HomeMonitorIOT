@@ -16,6 +16,8 @@ package com.tiasan.homemonitoriot;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -27,6 +29,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.github.pwittchen.weathericonview.WeatherIconView;
 
 /**
  * @author Tiago Sarmento Santos
@@ -59,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView            tvWeatherSunrise        = null;
     private TextView            tvWeatherSunset         = null;
     private TextView            tvWeatherCondition      = null;
+    private WeatherIconView     wiWeatherConditionID    = null;
     private SettingsHandler     shSettings              = null;
     private ErrorHandler        errorHandler            = null;
     private AlarmReceiver       arUpdateDataAlarm       = null;
@@ -92,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Init main layout objects
         setupButtonObjects();
         setupTextViewObjects();
+        setupWeatherIconViewObjects();
         // Create hook on AlarmReceiver
         arUpdateDataAlarm = new AlarmReceiver();
         // Create hook on Settings (Shared Preferences)
@@ -321,6 +327,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * @author Tiago Sarmento Santos
+     * @func setupWeatherIconViewObjects
+     * @desc This function does the setup of the MainActivity WeatherIconView objects
+     * @return none
+     */
+    private void setupWeatherIconViewObjects() {
+        this.wiWeatherConditionID = (WeatherIconView) findViewById(R.id.wiWeatherConditionID);
+    }
+
+    /**
+     * @author Tiago Sarmento Santos
      * @func populateSensorDataTableView
      * @desc This function populates the MainActivity Sensor TableView with the sensor data
      * @return none
@@ -383,6 +399,74 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             this.tvWeatherLocal.setText(this.shSettings.getSettingStringValue(getString(R.string.keyCityName)) + "," + " " + this.shSettings.getSettingStringValue(getString(R.string.keyCountryName)));
         }
+        // Fill in the weather conditions
+        if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherCondition)) == "") {
+            this.tvWeatherCondition.setText("No data yet available");
+        } else {
+            this.tvWeatherCondition.setText(this.shSettings.getSettingStringValue(getString(R.string.keyWeatherCondition)) );
+        }
+        // Fill in the weather condition ID icon
+        if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherConditionID)).equals("")) {
+            this.wiWeatherConditionID.setIconResource(getString(R.string.wi_day_sunny));
+            this.wiWeatherConditionID.setIconColor(ContextCompat.getColor(this, R.color.darkorange));
+        } else if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherConditionID)).equals("01d")) {
+            this.wiWeatherConditionID.setIconResource(getString(R.string.wi_day_sunny));
+            this.wiWeatherConditionID.setIconColor(ContextCompat.getColor(this, R.color.darkorange));
+        } else if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherConditionID)).equals("01n")) {
+            this.wiWeatherConditionID.setIconResource(getString(R.string.wi_night_clear));
+            this.wiWeatherConditionID.setIconColor(ContextCompat.getColor(this, R.color.lightgray));
+        } else if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherConditionID)).equals("02d")) {
+            this.wiWeatherConditionID.setIconResource(getString(R.string.wi_day_cloudy));
+            this.wiWeatherConditionID.setIconColor(ContextCompat.getColor(this, R.color.darkorange));
+        } else if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherConditionID)).equals("02n")) {
+            this.wiWeatherConditionID.setIconResource(getString(R.string.wi_night_alt_cloudy));
+            this.wiWeatherConditionID.setIconColor(ContextCompat.getColor(this, R.color.lightgray));
+        } else if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherConditionID)).equals("03d")) {
+            this.wiWeatherConditionID.setIconResource(getString(R.string.wi_cloud));
+            this.wiWeatherConditionID.setIconColor(ContextCompat.getColor(this, R.color.lightgray));
+        } else if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherConditionID)).equals("03n")) {
+            this.wiWeatherConditionID.setIconResource(getString(R.string.wi_cloud));
+            this.wiWeatherConditionID.setIconColor(ContextCompat.getColor(this, R.color.lightgray));
+        } else if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherConditionID)).equals("04d")) {
+            this.wiWeatherConditionID.setIconResource(getString(R.string.wi_cloudy));
+            this.wiWeatherConditionID.setIconColor(ContextCompat.getColor(this, R.color.lightgray));
+        } else if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherConditionID)).equals("04n")) {
+            this.wiWeatherConditionID.setIconResource(getString(R.string.wi_cloudy));
+            this.wiWeatherConditionID.setIconColor(ContextCompat.getColor(this, R.color.lightgray));
+        } else if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherConditionID)).equals("09d")) {
+            this.wiWeatherConditionID.setIconResource(getString(R.string.wi_rain));
+            this.wiWeatherConditionID.setIconColor(ContextCompat.getColor(this, R.color.lightgray));
+        } else if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherConditionID)).equals("09n")) {
+            this.wiWeatherConditionID.setIconResource(getString(R.string.wi_rain));
+            this.wiWeatherConditionID.setIconColor(ContextCompat.getColor(this, R.color.lightgray));
+        } else if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherConditionID)).equals("10d")) {
+            this.wiWeatherConditionID.setIconResource(getString(R.string.wi_day_rain));
+            this.wiWeatherConditionID.setIconColor(ContextCompat.getColor(this, R.color.lightgray));
+        } else if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherConditionID)).equals("10n")) {
+            this.wiWeatherConditionID.setIconResource(getString(R.string.wi_night_alt_rain));
+            this.wiWeatherConditionID.setIconColor(ContextCompat.getColor(this, R.color.lightgray));
+        } else if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherConditionID)).equals("11d")) {
+            this.wiWeatherConditionID.setIconResource(getString(R.string.wi_day_thunderstorm));
+            this.wiWeatherConditionID.setIconColor(ContextCompat.getColor(this, R.color.lightgray));
+        } else if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherConditionID)).equals("11n")) {
+            this.wiWeatherConditionID.setIconResource(getString(R.string.wi_night_thunderstorm));
+            this.wiWeatherConditionID.setIconColor(ContextCompat.getColor(this, R.color.lightgray));
+        } else if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherConditionID)).equals("13d")) {
+            this.wiWeatherConditionID.setIconResource(getString(R.string.wi_day_snow));
+            this.wiWeatherConditionID.setIconColor(ContextCompat.getColor(this, R.color.lightgray));
+        } else if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherConditionID)).equals("13n")) {
+            this.wiWeatherConditionID.setIconResource(getString(R.string.wi_night_snow));
+            this.wiWeatherConditionID.setIconColor(ContextCompat.getColor(this, R.color.lightgray));
+        } else if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherConditionID)).equals("50d")) {
+            this.wiWeatherConditionID.setIconResource(getString(R.string.wi_fog));
+        } else if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherConditionID)).equals("50n")) {
+            this.wiWeatherConditionID.setIconResource(getString(R.string.wi_fog));
+            this.wiWeatherConditionID.setIconColor(ContextCompat.getColor(this, R.color.lightgray));
+        } else {
+            this.wiWeatherConditionID.setIconResource(getString(R.string.wi_day_sunny));
+            this.wiWeatherConditionID.setIconColor(ContextCompat.getColor(this, R.color.darkorange));
+        }
+
         // Fill in the Temperature data
         if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherTemperatureData)) == "") {
             this.tvWeatherTemperature.setText("No data yet available");
@@ -433,12 +517,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             this.tvWeatherSunset.setText("No data yet available");
         } else {
             this.tvWeatherSunset.setText(this.shSettings.getSettingStringValue(getString(R.string.keyWeatherSunsetData)));
-        }
-        // Fill in the weather conditions
-        if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherCondition)) == "") {
-            this.tvWeatherCondition.setText("No data yet available");
-        } else {
-            this.tvWeatherCondition.setText(this.shSettings.getSettingStringValue(getString(R.string.keyWeatherCondition)) );
         }
     }
 }
