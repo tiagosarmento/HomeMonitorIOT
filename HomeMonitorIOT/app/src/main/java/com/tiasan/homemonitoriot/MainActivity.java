@@ -16,7 +16,6 @@ package com.tiasan.homemonitoriot;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,28 +40,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // Set Global data
     private static final String gTag                    = "DBG - MainActivity";
-    private Button              bTemperature            = null;
-    private Button              bHumidity               = null;
-    private Button              bPressure               = null;
-    private Button              bLight                  = null;
-    private TextView            tvTextUpd               = null;
-    private TextView            tvTemperature           = null;
-    private TextView            tvHumidity              = null;
-    private TextView            tvPressure              = null;
-    private TextView            tvAltitude              = null;
-    private TextView            tvVisibleLight          = null;
-    private TextView            tvInfraredLight         = null;
-    private TextView            tvWeatherLocal          = null;
-    private TextView            tvWeatherTemperature    = null;
-    private TextView            tvWeatherTemperatureMin = null;
-    private TextView            tvWeatherTemperatureMax = null;
-    private TextView            tvWeatherHumidity       = null;
-    private TextView            tvWeatherPressure       = null;
-    private TextView            tvWeatherVisibility     = null;
-    private TextView            tvWeatherWindSpeed      = null;
-    private TextView            tvWeatherSunrise        = null;
-    private TextView            tvWeatherSunset         = null;
-    private TextView            tvWeatherCondition      = null;
     private WeatherIconView     wiWeatherConditionID    = null;
     private SettingsHandler     shSettings              = null;
     private ErrorHandler        errorHandler            = null;
@@ -95,8 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Load main layout
         setContentView(R.layout.activity_main);
         // Init main layout objects
-        setupButtonObjects();
-        setupTextViewObjects();
+        setOnClickListenerObjects();
         setupWeatherIconViewObjects();
         // Create hook on AlarmReceiver
         arUpdateDataAlarm = new AlarmReceiver();
@@ -236,6 +212,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * @author Tiago Sarmento Santos
+     * @func setOnClickListenerObjects
+     * @desc This function does the sets the action onClickListener for the button objects
+     * @return none
+     */
+    private void setOnClickListenerObjects() {
+        // Setup buttons objects listeners
+        Button bButton;
+        // Set Temperature button
+        bButton = (Button) findViewById(R.id.bTemperature);
+        bButton.setOnClickListener(this);
+
+        // Set Humidity button
+        bButton = (Button) findViewById(R.id.bHumidity);
+        bButton.setOnClickListener(this);
+
+        // Set Pressure button
+        bButton = (Button) findViewById(R.id.bPressure);
+        bButton.setOnClickListener(this);
+
+        // Set Visible Light button
+        bButton = (Button) findViewById(R.id.bLight);
+        bButton.setOnClickListener(this);
+    }
+
+    /**
+     * @author Tiago Sarmento Santos
+     * @func setTextViewText
+     * @desc This function is used to set a Text in a specific TextView Element
+     * @param resourceID
+     * @param sText
+     * @return TextView
+     */
+    private void setTextViewText(int resourceID, String sText) {
+        TextView tvElement = (TextView) findViewById(resourceID);
+        tvElement.setText(sText);
+    }
+
+    /**
+     * @author Tiago Sarmento Santos
+     * @func getWeatherIconViewObject
+     * @desc This function is used to get an handler on a specific WeatherIconView Element
+     * @param resourceID
+     * @return TextView
+     */
+    public WeatherIconView getWeatherIconViewObject(int resourceID) {
+        return (WeatherIconView) findViewById(resourceID);
+    }
+
+    /**
+     * @author Tiago Sarmento Santos
      * @func showAboutDialog
      * @desc This function displays the About dialog message
      * @return none
@@ -277,56 +303,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * @author Tiago Sarmento Santos
-     * @func setupButtonObjects
-     * @desc This function does the setup of the MainActivity Button objects
-     * @return none
-     */
-    private void setupButtonObjects() {
-        // Setup buttons objects
-        this.bTemperature = (Button) findViewById(R.id.bTemperature);
-        this.bTemperature.setOnClickListener(this);
-
-        this.bHumidity = (Button) findViewById(R.id.bHumidity);
-        this.bHumidity.setOnClickListener(this);
-
-        this.bPressure = (Button) findViewById(R.id.bPressure);
-        this.bPressure.setOnClickListener(this);
-
-        this.bLight = (Button) findViewById(R.id.bLight);
-        this.bLight.setOnClickListener(this);
-    }
-
-    /**
-     * @author Tiago Sarmento Santos
-     * @func setupTextViewObjects
-     * @desc This function does the setup of the MainActivity TextView objects
-     * @return none
-     */
-    private void setupTextViewObjects() {
-        // Setup Sensor data TextView objects
-        this.tvTextUpd       = (TextView) findViewById(R.id.tvSensorFinal);
-        this.tvTemperature   = (TextView) findViewById(R.id.tvTemperature);
-        this.tvHumidity      = (TextView) findViewById(R.id.tvHumidity);
-        this.tvPressure      = (TextView) findViewById(R.id.tvPressure);
-        this.tvAltitude      = (TextView) findViewById(R.id.tvAltitude);
-        this.tvVisibleLight  = (TextView) findViewById(R.id.tvVisibleLight);
-        this.tvInfraredLight = (TextView) findViewById(R.id.tvInfraredLight);
-        // Setup Weather data TextView objects
-        this.tvWeatherLocal          = (TextView) findViewById(R.id.tvWeatherLocalName);
-        this.tvWeatherTemperature    = (TextView) findViewById(R.id.tvWeatherTemperature);
-        this.tvWeatherTemperatureMin = (TextView) findViewById(R.id.tvWeatherTemperatureMin);
-        this.tvWeatherTemperatureMax = (TextView) findViewById(R.id.tvWeatherTemperatureMax);
-        this.tvWeatherHumidity       = (TextView) findViewById(R.id.tvWeatherHumidity);
-        this.tvWeatherPressure       = (TextView) findViewById(R.id.tvWeatherPressure);
-        this.tvWeatherVisibility     = (TextView) findViewById(R.id.tvWeatherVisibility);
-        this.tvWeatherWindSpeed      = (TextView) findViewById(R.id.tvWeatherWindSpeed);
-        this.tvWeatherSunrise        = (TextView) findViewById(R.id.tvWeatherSunrise);
-        this.tvWeatherSunset         = (TextView) findViewById(R.id.tvWeatherSunset);
-        this.tvWeatherCondition      = (TextView) findViewById(R.id.tvWeatherCondition);
-    }
-
-    /**
-     * @author Tiago Sarmento Santos
      * @func setupWeatherIconViewObjects
      * @desc This function does the setup of the MainActivity WeatherIconView objects
      * @return none
@@ -344,45 +320,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void populateSensorDataTableView() {
         // Fill in the Temperature Data
         if (this.shSettings.getSettingStringValue(getString(R.string.keyTemperatureData)) == "") {
-            this.tvTemperature.setText("No data yet available");
+            setTextViewText(R.id.tvTemperature, "No data yet available");
         } else {
-            this.tvTemperature.setText(this.shSettings.getSettingStringValue(getString(R.string.keyTemperatureData)) + "°C");
+            setTextViewText(R.id.tvTemperature, this.shSettings.getSettingStringValue(getString(R.string.keyTemperatureData)) + "°C");
         }
         // Fill in the Humidity Data
         if (this.shSettings.getSettingStringValue(getString(R.string.keyHumidityData)) == "") {
-            this.tvHumidity.setText("No data yet available");
+            setTextViewText(R.id.tvHumidity, "No data yet available");
         } else {
-            this.tvHumidity.setText(this.shSettings.getSettingStringValue(getString(R.string.keyHumidityData)) + " %");
+            setTextViewText(R.id.tvHumidity, this.shSettings.getSettingStringValue(getString(R.string.keyHumidityData)) + " %");
         }
         // Fill in the Pressure Data
         if (this.shSettings.getSettingStringValue(getString(R.string.keyPressureData)) == "") {
-            this.tvPressure.setText("No data yet available");
+            setTextViewText(R.id.tvPressure, "No data yet available");
         } else {
-            this.tvPressure.setText(this.shSettings.getSettingStringValue(getString(R.string.keyPressureData)) + " mBar");
+            setTextViewText(R.id.tvPressure, this.shSettings.getSettingStringValue(getString(R.string.keyPressureData)) + " mBar");
         }
         // Fill in the Altitude Data
         if (this.shSettings.getSettingStringValue(getString(R.string.keyAltitudeData)) == "") {
-            this.tvAltitude.setText("No data yet available");
+            setTextViewText(R.id.tvAltitude, "No data yet available");
         } else {
-            this.tvAltitude.setText(this.shSettings.getSettingStringValue(getString(R.string.keyAltitudeData)) + " m");
+            setTextViewText(R.id.tvAltitude, this.shSettings.getSettingStringValue(getString(R.string.keyAltitudeData)) + " m");
         }
         // Fill in the Visible Light Data
         if (this.shSettings.getSettingStringValue(getString(R.string.keyVisibleLightData)) == "") {
-            this.tvVisibleLight.setText("No data yet available");
+            setTextViewText(R.id.tvVisibleLight, "No data yet available");
         } else {
-            this.tvVisibleLight.setText(this.shSettings.getSettingStringValue(getString(R.string.keyVisibleLightData)) + " Lux");
+            setTextViewText(R.id.tvVisibleLight, this.shSettings.getSettingStringValue(getString(R.string.keyVisibleLightData)) + " Lux");
         }
         // Fill in the Infrared Light Data
         if (this.shSettings.getSettingStringValue(getString(R.string.keyInfraredLightData)) == "") {
-            this.tvInfraredLight.setText("No data yet available");
+            setTextViewText(R.id.tvInfraredLight, "No data yet available");
         } else {
-            this.tvInfraredLight.setText(this.shSettings.getSettingStringValue(getString(R.string.keyInfraredLightData)) + " Lux");
+            setTextViewText(R.id.tvInfraredLight, this.shSettings.getSettingStringValue(getString(R.string.keyInfraredLightData)) + " Lux");
         }
         // Fill in the Last update Received
         if (this.shSettings.getSettingStringValue(getString(R.string.keyLastUpdateTime)) == "") {
-            this.tvTextUpd.setText("Press 'Refresh' on ActionBar to get new data...");
+            setTextViewText(R.id.tvSensorFinal, "Press 'Refresh' on ActionBar to get new data...");
         } else {
-            this.tvTextUpd.setText(this.shSettings.getSettingStringValue(getString(R.string.keyLastUpdateTime)) );
+            setTextViewText(R.id.tvSensorFinal, this.shSettings.getSettingStringValue(getString(R.string.keyLastUpdateTime)) );
         }
     }
 
@@ -395,15 +371,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void populateWeatherDataTableView() {
         // Fill in the Local/City name
         if (this.shSettings.getSettingStringValue(getString(R.string.keyCityName)) == "") {
-            this.tvWeatherLocal.setText("No data yet available");
+            setTextViewText(R.id.tvWeatherLocalName, "No data yet available");
         } else {
-            this.tvWeatherLocal.setText(this.shSettings.getSettingStringValue(getString(R.string.keyCityName)) + "," + " " + this.shSettings.getSettingStringValue(getString(R.string.keyCountryName)));
+            setTextViewText(R.id.tvWeatherLocalName, this.shSettings.getSettingStringValue(getString(R.string.keyCityName)) + "," + " " + this.shSettings.getSettingStringValue(getString(R.string.keyCountryName)));
         }
         // Fill in the weather conditions
         if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherCondition)) == "") {
-            this.tvWeatherCondition.setText("No data yet available");
+            setTextViewText(R.id.tvWeatherCondition, "No data yet available");
         } else {
-            this.tvWeatherCondition.setText(this.shSettings.getSettingStringValue(getString(R.string.keyWeatherCondition)) );
+            setTextViewText(R.id.tvWeatherCondition, this.shSettings.getSettingStringValue(getString(R.string.keyWeatherCondition)) );
         }
         // Fill in the weather condition ID icon
         if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherConditionID)).equals("")) {
@@ -469,54 +445,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Fill in the Temperature data
         if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherTemperatureData)) == "") {
-            this.tvWeatherTemperature.setText("No data yet available");
+            setTextViewText(R.id.tvWeatherTemperature, "No data yet available");
         } else {
-            this.tvWeatherTemperature.setText(this.shSettings.getSettingStringValue(getString(R.string.keyWeatherTemperatureData)) + "°C");
+            setTextViewText(R.id.tvWeatherTemperature, this.shSettings.getSettingStringValue(getString(R.string.keyWeatherTemperatureData)) + "°C");
         }
         if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherTemperatureMinData)) == "") {
-            this.tvWeatherTemperatureMin.setText("No data yet available");
+            setTextViewText(R.id.tvWeatherTemperatureMin, "No data yet available");
         } else {
-            this.tvWeatherTemperatureMin.setText(this.shSettings.getSettingStringValue(getString(R.string.keyWeatherTemperatureMinData)) + "°C");
+            setTextViewText(R.id.tvWeatherTemperatureMin, this.shSettings.getSettingStringValue(getString(R.string.keyWeatherTemperatureMinData)) + "°C");
         }
         if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherTemperatureMaxData)) == "") {
-            this.tvWeatherTemperatureMax.setText("No data yet available");
+            setTextViewText(R.id.tvWeatherTemperatureMax, "No data yet available");
         } else {
-            this.tvWeatherTemperatureMax.setText(this.shSettings.getSettingStringValue(getString(R.string.keyWeatherTemperatureMaxData)) + "°C");
+            setTextViewText(R.id.tvWeatherTemperatureMax, this.shSettings.getSettingStringValue(getString(R.string.keyWeatherTemperatureMaxData)) + "°C");
         }
         // Fill in the Humidity Data
         if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherHumidityData)) == "") {
-            this.tvWeatherHumidity.setText("No data yet available");
+            setTextViewText(R.id.tvWeatherHumidity, "No data yet available");
         } else {
-            this.tvWeatherHumidity.setText(this.shSettings.getSettingStringValue(getString(R.string.keyWeatherHumidityData)) + " %");
+            setTextViewText(R.id.tvWeatherHumidity, this.shSettings.getSettingStringValue(getString(R.string.keyWeatherHumidityData)) + " %");
         }
         // Fill in the Pressure Data
         if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherPressureData)) == "") {
-            this.tvWeatherPressure.setText("No data yet available");
+            setTextViewText(R.id.tvWeatherPressure, "No data yet available");
         } else {
-            this.tvWeatherPressure.setText(this.shSettings.getSettingStringValue(getString(R.string.keyWeatherPressureData)) + " hPa");
+            setTextViewText(R.id.tvWeatherPressure, this.shSettings.getSettingStringValue(getString(R.string.keyWeatherPressureData)) + " hPa");
         }
         // Fill in the Visibility Data
         if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherVisibilityData)) == "") {
-            this.tvWeatherVisibility.setText("No data yet available");
+            setTextViewText(R.id.tvWeatherVisibility, "No data yet available");
         } else {
-            this.tvWeatherVisibility.setText(this.shSettings.getSettingStringValue(getString(R.string.keyWeatherVisibilityData)) + " m");
+            setTextViewText(R.id.tvWeatherVisibility, this.shSettings.getSettingStringValue(getString(R.string.keyWeatherVisibilityData)) + " m");
         }
         // Fill in the Wind Data
         if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherWindSpeedData)) == "") {
-            this.tvWeatherWindSpeed.setText("No data yet available");
+            setTextViewText(R.id.tvWeatherWindSpeed, "No data yet available");
         } else {
-            this.tvWeatherWindSpeed.setText(this.shSettings.getSettingStringValue(getString(R.string.keyWeatherWindSpeedData)) + " m/s");
+            setTextViewText(R.id.tvWeatherWindSpeed, this.shSettings.getSettingStringValue(getString(R.string.keyWeatherWindSpeedData)) + " m/s");
         }
         // Fill in the sunrise and sunset hours
         if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherSunriseData)) == "") {
-            this.tvWeatherSunrise.setText("No data yet available");
+            setTextViewText(R.id.tvWeatherSunrise, "No data yet available");
         } else {
-            this.tvWeatherSunrise.setText(this.shSettings.getSettingStringValue(getString(R.string.keyWeatherSunriseData)));
+            setTextViewText(R.id.tvWeatherSunrise, this.shSettings.getSettingStringValue(getString(R.string.keyWeatherSunriseData)));
         }
         if (this.shSettings.getSettingStringValue(getString(R.string.keyWeatherSunsetData)) == "") {
-            this.tvWeatherSunset.setText("No data yet available");
+            setTextViewText(R.id.tvWeatherSunset, "No data yet available");
         } else {
-            this.tvWeatherSunset.setText(this.shSettings.getSettingStringValue(getString(R.string.keyWeatherSunsetData)));
+            setTextViewText(R.id.tvWeatherSunset, this.shSettings.getSettingStringValue(getString(R.string.keyWeatherSunsetData)));
         }
     }
 }
