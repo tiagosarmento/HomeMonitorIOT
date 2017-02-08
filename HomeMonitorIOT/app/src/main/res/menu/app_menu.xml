@@ -27,6 +27,22 @@
         android:title="Settings" />
 
     <item
+        android:id="@+id/mitPlotTemperature"
+        android:title="Temperature Graph" />
+
+    <item
+        android:id="@+id/mitPlotHumidity"
+        android:title="Humidity Graph" />
+
+    <item
+        android:id="@+id/mitPlotPressure"
+        android:title="Pressure Graph" />
+
+    <item
+        android:id="@+id/mitPlotLight"
+        android:title="Light Graph" />
+
+    <item
         android:id="@+id/mitAbout"
         android:title="About" />
 

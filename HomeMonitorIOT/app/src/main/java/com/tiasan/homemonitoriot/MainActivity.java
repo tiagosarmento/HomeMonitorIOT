@@ -24,8 +24,6 @@ import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -36,7 +34,7 @@ import com.github.pwittchen.weathericonview.WeatherIconView;
  * @class MainActivity
  * @desc This class is the application Main Activity
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
     // Set Global data
     private static final String gTag                    = "DBG - MainActivity";
@@ -72,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Load main layout
         setContentView(R.layout.activity_main);
         // Init main layout objects
-        setOnClickListenerObjects();
         setupWeatherIconViewObjects();
         // Create hook on AlarmReceiver
         arUpdateDataAlarm = new AlarmReceiver();
@@ -158,6 +155,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Take an action depending on option selected
+        Intent iActivity = null;
         switch (item.getItemId()) {
             case R.id.mitRefresh:
                 // Call data handler to fetch sensor data from Exosite Platform
@@ -166,12 +164,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.mitSettings:
                 // Call settings activity
-                Intent iSettings = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(iSettings);
+                iActivity = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(iActivity);
                 break;
             case R.id.mitAbout:
                 // Show About Dialog message
                 showAboutDialog();
+                break;
+            case R.id.mitPlotTemperature:
+                iActivity = new Intent(MainActivity.this, TemperatureActivity.class);
+                startActivity(iActivity);
+                break;
+            case R.id.mitPlotHumidity:
+                iActivity = new Intent(MainActivity.this, HumidityActivity.class);
+                startActivity(iActivity);
+                break;
+            case R.id.mitPlotPressure:
+                iActivity = new Intent(MainActivity.this, PressureActivity.class);
+                startActivity(iActivity);
+                break;
+            case R.id.mitPlotLight:
+                iActivity = new Intent(MainActivity.this, LightActivity.class);
+                startActivity(iActivity);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -179,62 +193,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
-    /**
-     * Called when a button is clicked.
-     */
-    @Override
-    public void onClick(View v) {
-        Intent iActivity;
-        // Started the consequent activity for a pressed button
-        switch(v.getId()) {
-            case R.id.bTemperature:
-                iActivity = new Intent(MainActivity.this, TemperatureActivity.class);
-                startActivity(iActivity);
-                break;
-            case R.id.bHumidity:
-                iActivity = new Intent(MainActivity.this, HumidityActivity.class);
-                startActivity(iActivity);
-                break;
-            case R.id.bPressure:
-                iActivity = new Intent(MainActivity.this, PressureActivity.class);
-                startActivity(iActivity);
-                break;
-            case R.id.bLight:
-                iActivity = new Intent(MainActivity.this, LightActivity.class);
-                startActivity(iActivity);
-                break;
-        }
-    }
-
     //
     // From here down are the MainActivity support functions
     //
-
-    /**
-     * @author Tiago Sarmento Santos
-     * @func setOnClickListenerObjects
-     * @desc This function does the sets the action onClickListener for the button objects
-     * @return none
-     */
-    private void setOnClickListenerObjects() {
-        // Setup buttons objects listeners
-        Button bButton;
-        // Set Temperature button
-        bButton = (Button) findViewById(R.id.bTemperature);
-        bButton.setOnClickListener(this);
-
-        // Set Humidity button
-        bButton = (Button) findViewById(R.id.bHumidity);
-        bButton.setOnClickListener(this);
-
-        // Set Pressure button
-        bButton = (Button) findViewById(R.id.bPressure);
-        bButton.setOnClickListener(this);
-
-        // Set Visible Light button
-        bButton = (Button) findViewById(R.id.bLight);
-        bButton.setOnClickListener(this);
-    }
 
     /**
      * @author Tiago Sarmento Santos
